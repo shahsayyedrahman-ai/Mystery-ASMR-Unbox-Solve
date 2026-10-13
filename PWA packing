@@ -1,0 +1,21 @@
+service-worker.js         (3,203 bytes)   SHA-256: 51cab8087821cb3791b8a59dd2870545bd9c9ea4688eece3f09befcafddaed15
+validate_pwa.py           (12,293 bytes)  SHA-256: 9cc52013ee8c1ee936a994f69763987b198caed95208281202e28f8d6dfc0ad5
+v10_validation.py         (1,777 bytes)   SHA-256: 54f9a9b1fd23d044bda79028ee6831cfa37dab38684c1baf315a9606db42587d
+v09_validation.py         (632 bytes)     SHA-256: a16b9ec7fddc685dea74b5acac25e268e0aac3dda9a9dd6416a3b17cb38c4fdf
+icons/icon-44.png         (4,426 bytes)   SHA-256: 329103f760515e738000698c1211249ada54060485f0210905baad149f4ec127
+icons/icon-71.png         (7,866 bytes)   SHA-256: 5086e827e560e3f02fc23371a2e4fc2b626e4ba456937e9e6960299cc36834e2
+icons/icon-150.png        (17,372 bytes)  SHA-256: 1d342a8fe20bd3180b711c8196a44c65cf9ae98501e10b238eb87bcdaf1d6a46
+icons/icon-192.png        (22,772 bytes)  SHA-256: adb1b252b001740500d3d973696b5e5e264e30221f83783603365b8fcb9e44e9
+icons/icon-310.png        (38,057 bytes)  SHA-256: cbf79a07f1d9367241c40924a527ef53789d0689c2f2043e254ec5d18ccf7689
+icons/icon-512.png        (55,554 bytes)  SHA-256: 0124576f386962dc67f99801ca5791b4d116524fe980a2a5825e5eee191597e2
+icons/icon-maskable-192.png (19,721 bytes) SHA-256: 37b4f0fc11afc9787fca80eba5cd7d840f8038c2a97f65bad6922a5aecc38cb3
+icons/icon-maskable-512.png (47,981 bytes) SHA-256: e6d13dafe77c424c0c6b63dfa57798e015f035b8650a2c892f1d3295167703d5
+icons/icon-32.png         (2,898 bytes)   SHA-256: 0dfb8eaa802f01deb9b6c6ce1254d0b5f2426efaced63be0414dd0fa11cf76ff
+icons/icon.svg            (2,822 bytes)   SHA-256: 33bfe75856491d0422b38cc2aebd3663574ede05431aa3101e3dbc937a5a1286
+```
+---
+## 7. Next Steps for Submission
+1. **Deploy to HTTPS**: Host `mystery_asmr_pwa_release` on a static HTTPS web host (e.g. GitHub Pages, Netlify, or Azure Static Web Apps).
+2. **Run PWABuilder**: Enter the HTTPS URL at [PWABuilder](https://www.pwabuilder.com) and confirm store readiness.
+3. **Generate Windows Package**: Input Partner Center App Identity credentials (`Package Name`, `Publisher ID`, `Version 1.0.0.0`) to generate the `.msixbundle`.
+4. **Partner Center Ingestion**: Upload the `.msixbundle` to the Microsoft Partner Center submission page.
