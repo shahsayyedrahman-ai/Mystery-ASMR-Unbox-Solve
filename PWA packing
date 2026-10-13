@@ -1,3 +1,38 @@
+# MYSTERY ASMR: UNBOX & SOLVE — PWA PACKAGING REPORT
+**Version**: V1.0 Release Candidate  
+**Release Folder**: `C:\Users\mkbaghel\.gemini\antigravity\scratch\mystery_asmr_pwa_release`  
+**Authoritative Backup**: `C:\Users\mkbaghel\.gemini\antigravity\scratch\mystery_asmr_v0.6_backup_pre_pwa`  
+**Original Authoritative File**: `C:\Users\mkbaghel\.gemini\antigravity\scratch\mystery_asmr_v0.6\index.html`  
+**Classification**: **RELEASE CANDIDATE**  
+---
+## 1. Executive Summary
+The single-file HTML5 casual game **Mystery ASMR: Unbox & Solve** has been packaged as an installable Windows Progressive Web App (PWA) ready for ingestion by [PWABuilder](https://www.pwabuilder.com) and Microsoft Store packaging.
+A complete backup of the authoritative source was preserved before any release preparations. All game economy, rarities, pity rates, XP tables, box pricing, duplicate rewards, mastery rewards, and save data structures remain untouched and 100% identical.
+All PWA packaging components—including the W3C Web App Manifest, Cache-First Service Worker, adaptive and store icons, and offline re-launch capabilities—have been validated in a headless Chromium/Edge browser using Chrome DevTools Protocol (CDP) with zero console errors.
+---
+## 2. PWA Manifest Verification (`manifest.webmanifest`)
+The Web App Manifest was verified against W3C and Microsoft Store PWA specifications:
+- **App Name**: `Mystery ASMR: Unbox & Solve`
+- **Short Name**: `Mystery ASMR`
+- **Application ID**: `/mystery-asmr-unbox-solve`
+- **Start URL & Scope**: `./index.html` / `./`
+- **Display Mode**: `standalone` (with fallback list: `["standalone", "minimal-ui"]`)
+- **Orientation**: `portrait`
+- **Theme Color**: `#7357f5` (matches in-game `--purple` UI theme)
+- **Background Color**: `#fbfaff` (matches in-game light lavender shell)
+- **Categories**: `["games", "entertainment", "casual"]`
+- **App Shortcuts**:
+  1. `Choose Box` (`./index.html#boxes`)
+  2. `View Collection` (`./index.html#collection`)
+- **Icon Declarations**: 9 icon configurations (including standard, maskable, and Windows tile sizes).| **True E2E Validation** | `mystery_asmr_v0.6` | `v10_true_e2e.py` | **13 / 13 PASS** |
+| **Console Errors** | All runs | Active CDP Listener | **0 ERRORS** |
+---
+## 6. Release Artifacts & Checksums
+All packaged files in `mystery_asmr_pwa_release` have been cryptographically hashed and cataloged in `RELEASE_MANIFEST.md`:
+```text
+README.md                 (6,265 bytes)   SHA-256: c3b95271d95f3191b1d0e38a8940c435a617bf6c4a48dfb7862adce96dbdb2e5
+index.html                (111,387 bytes) SHA-256: 7842b4a06eb1c3b0635618901e3260f72d3747c1b1d1a0526898804eb6aa358d
+manifest.webmanifest      (2,372 bytes)   SHA-256: df183885b7ebf11bd85b889fc07e005ec9a647755250370d779c7c832129341a
 service-worker.js         (3,203 bytes)   SHA-256: 51cab8087821cb3791b8a59dd2870545bd9c9ea4688eece3f09befcafddaed15
 validate_pwa.py           (12,293 bytes)  SHA-256: 9cc52013ee8c1ee936a994f69763987b198caed95208281202e28f8d6dfc0ad5
 v10_validation.py         (1,777 bytes)   SHA-256: 54f9a9b1fd23d044bda79028ee6831cfa37dab38684c1baf315a9606db42587d
