@@ -1,0 +1,37 @@
+            # Restore network
+            await send_cmd('Network.emulateNetworkConditions', {
+                'offline': False,
+                'latency': 0,
+                'downloadThroughput': -1,
+                'uploadThroughput': -1
+            })
+            # Verify localStorage persistence and reset
+            print("  - Verifying persistence and reset in PWA copy...")
+            pers_res = await eval_js("""
+                (() => {
+                    state.coins = 9999;
+                    save();
+                    const raw = JSON.parse(localStorage.getItem('mysteryAsmrV2'));
+                    const savedCoins = raw.coins;
+                    resetSave();
+                    const clean = JSON.parse(localStorage.getItem('mysteryAsmrV2'));
+                    return { savedCoins, resetCoins: clean.coins };
+                })()
+            """)
+            assert pers_res['savedCoins'] == 9999, "Persistence failed"
+            assert pers_res['resetCoins'] == 250, "Reset failed"
+            print("  ✓ LocalStorage key 'mysteryAsmrV2' persistence and clean reset confirmed.")
+            # Check for console errors
+            print(f"  - Console errors captured: {len(console_errors)}")
+            assert len(console_errors) == 0, f"Console errors detected: {console_errors}"
+            print("  ✓ Zero JavaScript console errors detected.")
+    finally:
+        proc.kill()
+        server.shutdown()
+    print("\n==================================================")
+    print("ALL PWA PACKAGING VALIDATION CHECKS PASSED (100%)")
+    print("==================================================")
+if __name__ == '__main__':
+    validate_manifest_and_icons()
+    validate_service_worker_code()
+    asyncio.run(validate_browser_pwa())
