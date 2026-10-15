@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7357f5"/>
+      <stop offset="100%" stop-color="#583ecc"/>
+    </linearGradient>
+    <linearGradient id="boxGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffd269"/>
+      <stop offset="100%" stop-color="#ff9a24"/>
+    </linearGradient>
+    <linearGradient id="ribbonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff7aa2"/>
+      <stop offset="100%" stop-color="#fc6094"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#2a1860" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)"/>
+  
+  <!-- Subtle center glow -->
+  <circle cx="256" cy="230" r="180" fill="#ffffff" opacity="0.08"/>
+
+  <!-- Gift Box Shadow -->
+  <ellipse cx="256" cy="420" rx="150" ry="32" fill="#24154c" opacity="0.45"/>
+
+  <!-- Gift Box Body -->
+  <g filter="url(#shadow)">
+    <rect x="136" y="236" width="240" height="180" rx="28" fill="url(#boxGrad)"/>
+    
+    <!-- Vertical Ribbon -->
+    <rect x="228" y="236" width="56" height="180" fill="url(#ribbonGrad)"/>
+    <rect x="236" y="236" width="14" height="180" fill="#ffa8c5" opacity="0.6"/>
+
+    <!-- Box Lid -->
+    <rect x="120" y="200" width="272" height="56" rx="20" fill="#ffaa2b"/>
+    <rect x="120" y="200" width="272" height="10" rx="5" fill="#ffe299" opacity="0.7"/>
+    <rect x="228" y="200" width="56" height="56" fill="url(#ribbonGrad)"/>
+    <rect x="236" y="200" width="14" height="56" fill="#ffa8c5" opacity="0.6"/>
+
+    <!-- Bow -->
+    <!-- Left loop -->
+    <ellipse cx="206" cy="176" rx="38" ry="24" fill="url(#ribbonGrad)" transform="rotate(-20 206 176)"/>
+    <ellipse cx="206" cy="176" rx="22" ry="12" fill="#ff7aa2" transform="rotate(-20 206 176)"/>
+    <!-- Right loop -->
+    <ellipse cx="306" cy="176" rx="38" ry="24" fill="url(#ribbonGrad)" transform="rotate(20 306 176)"/>
+    <ellipse cx="306" cy="176" rx="22" ry="12" fill="#ff7aa2" transform="rotate(20 306 176)"/>
+    <!-- Knot -->
+    <circle cx="256" cy="182" r="18" fill="#e84078"/>
+  </g>
+
+  <!-- Sparkles -->
+  <path d="M120 150 Q135 150 135 135 Q135 150 150 150 Q135 150 135 165 Q135 150 120 150 Z" fill="#fff9cc"/>
+  <path d="M380 130 Q398 130 398 112 Q398 130 416 130 Q398 130 398 148 Q398 130 380 130 Z" fill="#fff9cc"/>
+  <path d="M400 320 Q412 320 412 308 Q412 320 424 320 Q412 320 412 332 Q412 320 400 320 Z" fill="#fff9cc"/>
+  <path d="M100 340 Q110 340 110 330 Q110 340 120 340 Q110 340 110 350 Q110 340 100 340 Z" fill="#fff9cc"/>
+</svg>
