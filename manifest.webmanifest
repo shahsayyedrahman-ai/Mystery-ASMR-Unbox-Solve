@@ -1,0 +1,105 @@
+{
+  "id": "/mystery-asmr-unbox-solve",
+  "name": "Mystery ASMR: Unbox & Solve",
+  "short_name": "Mystery ASMR",
+  "description": "A relaxing casual mystery box ASMR unboxing and puzzle game. Satisfying unwrapping, fun mini-puzzles, and 50 unique collectibles across 10 themed sets.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "portrait",
+  "theme_color": "#7357f5",
+  "background_color": "#fbfaff",
+  "categories": [
+    "games",
+    "entertainment",
+    "casual"
+  ],
+  "dir": "ltr",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "icons/icon-44.png",
+      "sizes": "44x44",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-71.png",
+      "sizes": "71x71",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-150.png",
+      "sizes": "150x150",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-310.png",
+      "sizes": "310x310",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Choose Box",
+      "short_name": "Boxes",
+      "description": "Pick a mystery box to unwrap",
+      "url": "./index.html#boxes",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "View Collection",
+      "short_name": "Collection",
+      "description": "Inspect collected mystery items and theme masteries",
+      "url": "./index.html#collection",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}
