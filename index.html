@@ -1,0 +1,3371 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Mystery ASMR: Unbox & Solve</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#7357f5">
+<meta name="description" content="A relaxing casual mystery box ASMR unboxing and puzzle game.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mystery ASMR">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<style>
+:root{
+  --ink:#292541;
+  --purple:#7357f5;
+  --purple-dark:#583ecc;
+  --pink:#fc6094;
+  --soft:#f5f2ff;
+  --gold:#ffc952;
+  --gold-dark:#d99b1a;
+  --shadow:#8f80bf55;
+  --green:#48bb78;
+  --red:#f56565;
+  --bg-gradient:linear-gradient(155deg,#fbfaff,#e7e0ff);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;overscroll-behavior:none}
+body{
+  background:#dcd5f2;
+  font-family:ui-rounded,"Arial Rounded MT Bold",system-ui,-apple-system,sans-serif;
+  color:var(--ink);
+  user-select:none;
+  -webkit-user-select:none;
+  overflow-x:hidden;
+}
+.app{
+  width:100%;
+  max-width:460px;
+  min-height:100svh;
+  margin:auto;
+  padding:calc(env(safe-area-inset-top) + 12px) 16px calc(env(safe-area-inset-bottom) + 86px);
+  background:var(--bg-gradient);
+  position:relative;
+  overflow-x:hidden;
+}
+button{
+  font:inherit;
+  border:0;
+  color:inherit;
+  cursor:pointer;
+  touch-action:manipulation;
+  min-height:44px;
+}
+header{
+  height:54px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+h1{font-size:20px;margin:0;white-space:nowrap}
+h1 b{color:var(--pink)}
+.back{
+  width:42px;
+  height:42px;
+  min-height:42px;
+  border-radius:50%;
+  background:#fff;
+  font-size:26px;
+  line-height:40px;
+  text-align:center;
+  box-shadow:0 3px 10px var(--shadow);
+  visibility:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.coins{
+  background:#fff;
+  padding:8px 14px;
+  border-radius:20px;
+  box-shadow:0 3px 10px var(--shadow);
+  font-size:14px;
+  font-weight:bold;
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+.hero{text-align:center;padding:12px 4px 0}
+.hero h2{font-size:26px;margin:0}
+.sub{color:#77738b;font-size:13px;margin:6px 0}
+.stage{height:220px;display:grid;place-items:center;position:relative}
+.box-big{
+  width:210px;
+  height:136px;
+  border-radius:16px;
+  background:var(--c,#ffad67);
+  display:grid;
+  place-items:center;
+  color:white;
+  font-size:72px;
+  text-shadow:0 5px #b96d38;
+  box-shadow:inset 0 12px #fff5,0 16px #bd6b30,0 26px 26px #8677ad55;
+  position:relative;
+  transition:transform .2s ease;
+}
+.box-big:before{
+  content:"";
+  position:absolute;
+  top:-20px;
+  left:0;
+  right:0;
+  height:40px;
+  border-radius:14px;
+  background:inherit;
+  filter:brightness(1.12);
+  transform:skewY(-4deg);
+  border-bottom:4px solid #a65e32;
+}
+.spark{position:absolute;color:#ffc953;font-size:24px;animation:float 1.8s infinite alternate}
+.spark:nth-child(1){left:12%;top:18%}
+.spark:nth-child(2){right:14%;top:28%;animation-delay:.5s}
+.spark:nth-child(3){right:20%;bottom:15%;animation-delay:1s}
+@keyframes float{to{transform:translateY(-12px) rotate(20deg)}}
+
+.primary{
+  display:block;
+  width:100%;
+  border-radius:18px;
+  padding:16px;
+  background:linear-gradient(135deg,var(--pink),#fb7d73);
+  box-shadow:0 6px #cb4775;
+  color:white;
+  font-weight:900;
+  font-size:16px;
+  letter-spacing:.5px;
+  text-align:center;
+  transition:transform .1s,box-shadow .1s;
+}
+.primary:active{transform:translateY(3px);box-shadow:0 3px #cb4775}
+.primary.secondary-color{
+  background:linear-gradient(135deg,var(--purple),#9b74d8);
+  box-shadow:0 6px var(--purple-dark);
+}
+.primary.secondary-color:active{box-shadow:0 3px var(--purple-dark)}
+
+.stats-bar{
+  display:flex;
+  justify-content:space-around;
+  background:#fff;
+  border-radius:18px;
+  padding:10px 8px;
+  margin:14px 0 12px;
+  box-shadow:0 3px 12px var(--shadow);
+  font-size:11px;
+  font-weight:bold;
+  text-align:center;
+}
+.stats-bar div span{display:block;font-size:16px;color:var(--purple);margin-bottom:2px}
+
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.quick button,.card,.collect,.mission-card{
+  background:#fff;
+  border-radius:18px;
+  box-shadow:0 4px 14px var(--shadow);
+  border:0;
+}
+.quick button{
+  padding:10px 4px;
+  font-size:11px;
+  font-weight:800;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+.quick span{font-size:22px;margin-bottom:2px}
+
+.title{display:flex;justify-content:space-between;align-items:center;margin:12px 0 10px}
+.title h2{font-size:22px;margin:0}
+.badge{
+  font-size:11px;
+  font-weight:bold;
+  color:var(--purple);
+  background:#eeeaff;
+  border-radius:13px;
+  padding:6px 10px;
+}
+.badge.gold{color:#925f05;background:#fef0cd}
+.badge.combo{color:#c53030;background:#fed7d7}
+
+.boxes{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.card{text-align:left;padding:12px;position:relative;min-height:168px;display:flex;flex-direction:column}
+.card:active{transform:scale(.98)}
+.mini{
+  height:92px;
+  border-radius:13px;
+  background:var(--c);
+  display:grid;
+  place-items:center;
+  font-size:44px;
+  margin-bottom:8px;
+  box-shadow:inset 0 8px #fff5;
+}
+.card b{font-size:14px}
+.card small{color:#77738b;font-size:10px}
+.cost{display:block;color:#8a6390;margin-top:auto;font-weight:bold;font-size:12px}
+.card.locked-box{
+  background:#fbfaff;
+  border:1px dashed #d5cfe5;
+  box-shadow:0 2px 8px var(--shadow);
+}
+.card.locked-box .mini{
+  filter:grayscale(0.65) brightness(0.92);
+  position:relative;
+}
+.card.locked-box .mini:after{
+  content:"🔒";
+  position:absolute;
+  font-size:26px;
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,0.25));
+}
+.lock-req{
+  font-size:10px;
+  color:#6c6780;
+  margin:3px 0 2px;
+  font-weight:800;
+  line-height:1.2;
+}
+.lock-progress-wrap{
+  width:100%;
+  height:5px;
+  border-radius:6px;
+  background:#e5e0f1;
+  overflow:hidden;
+  margin:2px 0;
+}
+.lock-progress-bar{
+  height:100%;
+  border-radius:6px;
+  background:linear-gradient(90deg,var(--purple),var(--pink));
+  transition:width .3s ease;
+}
+.lock-progress-text{
+  color:#8c889f;
+  font-size:9px;
+  font-weight:bold;
+  display:block;
+}
+.cost.locked-cost{
+  color:#9a96a9;
+  font-size:11px;
+}
+
+/* ASMR Area */
+.task{text-align:center}
+.task h2{font-size:22px;margin:6px 0 4px}
+.task .sub{margin-bottom:14px}
+.interact{
+  height:290px;
+  border-radius:26px;
+  background:#fff;
+  box-shadow:0 6px 18px var(--shadow);
+  position:relative;
+  overflow:hidden;
+  touch-action:none;
+}
+.parcel{
+  width:215px;
+  height:130px;
+  border-radius:13px;
+  background:var(--c);
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-45%);
+  box-shadow:inset 0 10px #fff4,0 12px #b26a35;
+  transition:transform .3s ease;
+}
+.tool{
+  position:absolute;
+  font-size:52px;
+  pointer-events:none;
+  filter:drop-shadow(0 5px 4px rgba(0,0,0,0.25));
+  z-index:4;
+  transform:translate(-50%,-50%);
+  transition:transform .06s linear;
+}
+.tape{
+  position:absolute;
+  background:#fee6a5dd;
+  width:46px;
+  height:170px;
+  left:calc(50% - 23px);
+  top:55px;
+  transform-origin:top;
+  pointer-events:none;
+  border:1px dashed #d1b46a;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+.seal{
+  position:absolute;
+  width:82px;
+  height:82px;
+  left:calc(50% - 41px);
+  top:105px;
+  border-radius:50%;
+  background:#f85664;
+  border:5px solid #ff929b;
+  display:grid;
+  place-items:center;
+  color:#fff;
+  font-size:32px;
+  pointer-events:none;
+  box-shadow:0 4px 12px rgba(248,86,100,0.4);
+}
+.bubble-grid{
+  position:absolute;
+  inset:30px 20px;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  grid-template-rows:repeat(5,1fr);
+  gap:8px;
+  place-items:center;
+  pointer-events:none;
+}
+.bubble-item{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:radial-gradient(circle at 14px 14px,#fff 0 25%,#a9def0 45%,#7ec2dc 85%);
+  box-shadow:0 2px 6px rgba(0,0,0,0.15),inset 0 -2px 4px rgba(0,0,0,0.2);
+  transition:transform .15s,opacity .15s;
+}
+.bubble-item.popped{
+  transform:scale(.25);
+  opacity:.15;
+}
+.zip-track{
+  position:absolute;
+  left:calc(50% - 105px);
+  top:140px;
+  width:210px;
+  height:24px;
+  display:flex;
+  align-items:center;
+  pointer-events:none;
+}
+.zip-line{
+  position:absolute;
+  left:0;
+  right:0;
+  height:8px;
+  border-top:3px dashed #8e8a9d;
+  border-bottom:3px dashed #8e8a9d;
+  background:#e7e8ea;
+}
+.zipper-handle{
+  position:absolute;
+  left:0;
+  font-size:36px;
+  transform:translate(-50%,-10px);
+  pointer-events:none;
+}
+.scratch-overlay{
+  position:absolute;
+  inset:40px 30px;
+  background:linear-gradient(135deg,#a7a4ae,#c5c1cf);
+  border-radius:18px;
+  pointer-events:none;
+  display:grid;
+  place-items:center;
+  font-size:60px;
+  color:#fff;
+  transition:opacity .2s;
+  box-shadow:inset 0 2px 6px rgba(255,255,255,0.6),0 4px 10px rgba(0,0,0,0.2);
+}
+.scratch-overlay.revealed{opacity:0}
+
+.progress-wrap{
+  height:14px;
+  margin:18px 6px 6px;
+  border-radius:12px;
+  background:#e7e3ee;
+  overflow:hidden;
+}
+.progress{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#ffc54f,var(--pink));
+  border-radius:12px;
+  transition:width .08s linear;
+}
+.percent{font-size:12px;font-weight:bold;color:#77738b}
+
+.done .parcel{animation:openBox .55s ease-out}
+.done .tape,.done .seal{animation:vanish .5s forwards}
+.done .zip-track{animation:zipaway .45s forwards}
+.done .bubble-grid{animation:popaway .45s forwards}
+.done .scratch-overlay{animation:fade .4s forwards}
+
+@keyframes openBox{50%{transform:translate(-50%,-58%) scale(1.05) rotate(-2deg)}100%{transform:translate(-50%,-45%)}}
+@keyframes vanish{to{transform:translateY(-70px) rotate(-25deg);opacity:0}}
+@keyframes popaway{to{opacity:0;transform:scale(1.25)}}
+@keyframes zipaway{to{transform:scaleX(0);opacity:0}}
+@keyframes fade{to{opacity:0;transform:scale(.8)}}
+
+/* Puzzles */
+.puzzle{
+  min-height:360px;
+  background:#fff;
+  border-radius:26px;
+  padding:16px 12px;
+  box-shadow:0 6px 18px var(--shadow);
+}
+.puzzle h2{margin:0;font-size:22px}
+.puzzle p{margin:6px 0 14px;color:#77738b;font-size:13px}
+.puzzle-status{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  font-size:12px;
+  font-weight:bold;
+  margin-top:14px;
+  color:#77738b;
+}
+
+.pgrid{
+  display:grid;
+  grid-template-columns:repeat(3,76px);
+  gap:10px;
+  justify-content:center;
+  margin:16px auto;
+}
+.pgrid button,.order button,.sort-item,.diff-btn,.mem-card{
+  height:76px;
+  border-radius:18px;
+  background:#f8f7ff;
+  box-shadow:0 3px 10px #aba2c344;
+  font-size:32px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:transform .1s,background-color .2s;
+}
+.pgrid button:active,.diff-btn:active,.mem-card:active{transform:scale(.94)}
+
+.good{animation:good .32s forwards;outline:4px solid #48bb78!important;background:#e6fffa!important}
+.bad{animation:bad .35s forwards;background:#ffe2ea!important;outline:4px solid #f56565!important}
+@keyframes good{50%{transform:scale(1.1)}}
+@keyframes bad{25%,75%{transform:translateX(-7px)}50%{transform:translateX(7px)}}
+
+.order{display:flex;justify-content:center;gap:10px;margin:24px 0 16px}
+.order button{width:76px}
+.slots{display:flex;justify-content:center;gap:10px;margin-top:16px}
+.slot{
+  width:76px;
+  height:64px;
+  border:3px dashed #c5bcdf;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  font-size:28px;
+  background:#faf9ff;
+}
+
+.sort-items{display:flex;justify-content:center;gap:12px;margin:18px 0}
+.sort-item{width:70px}
+.bins{display:flex;justify-content:center;gap:16px}
+.bin{
+  width:116px;
+  height:116px;
+  border-radius:18px;
+  background:#edf5ff;
+  border:3px dashed #8ab7f4;
+  padding:8px;
+  font-size:13px;
+  font-weight:bold;
+  text-align:center;
+}
+.bin.red{background:#fff0f1;border-color:#fa9da9}
+.bin span{font-size:36px;display:block;margin-bottom:4px}
+
+.hidden-grid{
+  display:grid;
+  grid-template-columns:repeat(4,60px);
+  gap:10px;
+  justify-content:center;
+  margin-top:18px;
+}
+.hidden-grid button{
+  height:60px;
+  border-radius:14px;
+  background:#f4f1fb;
+  font-size:28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* Tap Different Grid */
+.diff-grid{
+  display:grid;
+  gap:9px;
+  justify-content:center;
+  margin:16px auto;
+}
+.diff-grid.cols-3{grid-template-columns:repeat(3,74px)}
+.diff-grid.cols-4{grid-template-columns:repeat(4,62px)}
+.diff-grid.cols-4 button{height:62px;font-size:28px}
+
+/* Memory Match Grid */
+.mem-grid{
+  display:grid;
+  gap:9px;
+  justify-content:center;
+  margin:16px auto;
+}
+.mem-grid.size-6{grid-template-columns:repeat(3,76px)}
+.mem-grid.size-8{grid-template-columns:repeat(4,64px)}
+.mem-grid.size-8 button{height:64px;font-size:26px}
+.mem-grid.size-10{grid-template-columns:repeat(5,54px)}
+.mem-grid.size-10 button{height:58px;font-size:22px;border-radius:14px}
+.mem-card{
+  perspective:600px;
+  position:relative;
+  cursor:pointer;
+  font-weight:bold;
+}
+.mem-card.flipped{background:#fff;outline:3px solid var(--purple)}
+.mem-card.matched{background:#e6fffa;outline:3px solid #48bb78;opacity:.85}
+
+/* Reveal Screen */
+.reveal{text-align:center;padding-top:16px}
+.anticipate{height:140px;display:grid;place-items:center}
+.revealbox{font-size:88px;animation:shake .45s infinite}
+.revealbox.open{animation:openReveal .7s forwards}
+@keyframes shake{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+@keyframes openReveal{to{transform:translateY(-40px) scale(1.15);opacity:0}}
+.item{
+  font-size:128px;
+  filter:drop-shadow(0 12px 14px #8f7ab466);
+  animation:pop .55s cubic-bezier(.17,.89,.32,1.45);
+  margin:10px 0;
+}
+@keyframes pop{from{transform:scale(0) rotate(-24deg)}}
+.rarity{
+  display:inline-block;
+  padding:7px 18px;
+  border-radius:16px;
+  color:white;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+.reward{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin:8px auto;
+  padding:8px 14px;
+  background:#fff6d9;
+  border-radius:16px;
+  font-weight:bold;
+  font-size:14px;
+}
+.legend-celebration{
+  background:linear-gradient(135deg,#ffdf79,#f87171);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  font-size:26px;
+  margin:4px 0;
+  font-weight:900;
+  animation:pulse 1s infinite alternate;
+}
+@keyframes pulse{to{transform:scale(1.05)}}
+.legend{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.legend i{
+  position:absolute;
+  color:#ffe456;
+  font-style:normal;
+  font-size:26px;
+  animation:particle 1s forwards cubic-bezier(0,0,.2,1);
+}
+@keyframes particle{to{transform:translate(var(--x),var(--y)) rotate(260deg);opacity:0}}
+
+/* Collection Screen */
+.filter-scroll{
+  display:flex;
+  gap:6px;
+  overflow-x:auto;
+  padding:4px 0 8px;
+  scrollbar-width:none;
+}
+.filter-scroll::-webkit-scrollbar{display:none}
+.filter-btn{
+  flex:0 0 auto;
+  padding:6px 12px;
+  border-radius:14px;
+  background:#fff;
+  box-shadow:0 2px 8px var(--shadow);
+  font-size:11px;
+  font-weight:800;
+  color:#77738b;
+  min-height:36px;
+}
+.filter-btn.active{
+  background:var(--purple);
+  color:#fff;
+  box-shadow:0 3px 10px rgba(115,87,245,0.4);
+}
+.collection{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+.collect{
+  min-height:120px;
+  text-align:center;
+  padding:10px 6px;
+  cursor:pointer;
+  transition:transform .12s;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+.collect:active{transform:scale(.95)}
+.collect .ci{font-size:42px;margin-bottom:4px}
+.collect b{display:block;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%}
+.collect small{font-size:10px;color:#77738b;display:block;margin-top:2px}
+.collect.lock{filter:grayscale(1);opacity:.45}
+.collect.silver-mastery{
+  border:2px solid #b0bec5;
+  background:linear-gradient(145deg, #ffffff, #f0f4f8);
+  box-shadow:0 3px 12px rgba(144,164,174,0.3);
+}
+.collect.gold-mastery{
+  border:2px solid #ffd700;
+  background:linear-gradient(145deg, #fffdf0, #fff7c2);
+  box-shadow:0 4px 16px rgba(255,215,0,0.4);
+}
+.star-badge{
+  position:absolute;
+  top:6px;
+  right:6px;
+  font-size:10px;
+  line-height:1;
+  padding:2px 4px;
+  border-radius:8px;
+  font-weight:bold;
+  background:rgba(255,255,255,0.9);
+  box-shadow:0 1px 3px rgba(0,0,0,0.1);
+}
+.star-badge.silver{color:#546e7a;border:1px solid #b0bec5}
+.star-badge.gold{color:#b78103;background:#fff8db;border:1px solid #ffd700}
+
+/* View Toggle */
+.view-toggle{
+  display:flex;
+  gap:6px;
+  background:#eeeaff;
+  padding:4px;
+  border-radius:16px;
+  margin:10px 0 12px;
+}
+.v-btn{
+  flex:1;
+  padding:8px 6px;
+  border-radius:12px;
+  font-size:12px;
+  font-weight:bold;
+  background:none;
+  color:#77738b;
+  transition:all .15s;
+  min-height:36px;
+}
+.v-btn.active{
+  background:#fff;
+  color:var(--purple);
+  box-shadow:0 2px 8px var(--shadow);
+}
+
+/* Theme Sets Showcase */
+.sets-list{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.theme-card{
+  background:#fff;
+  border-radius:20px;
+  padding:14px;
+  box-shadow:0 4px 14px var(--shadow);
+  text-align:left;
+  transition:transform .15s;
+}
+.theme-card.mastered{
+  border:2px solid #ffc95277;
+  background:linear-gradient(170deg,#ffffff,#fefcf5);
+}
+.theme-card-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:8px;
+}
+.theme-title{font-size:15px;color:var(--ink);display:block}
+.theme-bar-wrap{
+  height:8px;
+  border-radius:8px;
+  background:#eeeaff;
+  overflow:hidden;
+  margin-bottom:12px;
+}
+.theme-bar{
+  height:100%;
+  border-radius:8px;
+  background:var(--purple);
+  transition:width .2s ease;
+}
+.theme-bar.gold{
+  background:linear-gradient(90deg,#ffc54f,#fc6094);
+}
+.theme-slots{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:6px;
+  margin-bottom:8px;
+}
+.theme-slot{
+  background:#f7f6fc;
+  border-radius:12px;
+  padding:6px 2px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:56px;
+  text-align:center;
+  transition:transform .1s;
+}
+.theme-slot:active{transform:scale(.94)}
+.theme-slot span{font-size:22px}
+.theme-slot small{
+  font-size:9px;
+  color:#77738b;
+  margin-top:2px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  width:100%;
+}
+.theme-slot.owned{
+  background:#fff;
+  border:1px solid #e2ddf3;
+  box-shadow:0 2px 6px rgba(0,0,0,0.04);
+}
+.theme-slot.locked{
+  opacity:.5;
+  filter:grayscale(1);
+}
+.claim-mastery-btn{
+  padding:6px 12px;
+  border-radius:12px;
+  font-size:11px;
+  font-weight:bold;
+  background:linear-gradient(135deg,#ffc952,#fc6094);
+  color:#fff;
+  box-shadow:0 3px 10px rgba(252,96,148,0.35);
+  animation:pulse 1.4s infinite;
+  min-height:34px;
+}
+@keyframes pulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.04)}
+}
+.set-reward-hint{
+  font-size:11px;
+  color:#8a83a0;
+  text-align:center;
+  margin-top:4px;
+}
+.theme-progress-pill{
+  display:inline-block;
+  background:#eeeaff;
+  color:var(--purple);
+  padding:4px 12px;
+  border-radius:12px;
+  font-size:11px;
+  font-weight:bold;
+  margin:4px 0;
+}
+
+/* Daily Screen & Missions */
+.mission-card{
+  padding:14px;
+  margin-bottom:10px;
+  text-align:left;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.mission-info{flex:1}
+.mission-info b{display:block;font-size:13px;margin-bottom:4px}
+.mission-info small{color:#77738b;font-size:11px}
+.mission-progress{
+  height:8px;
+  background:#e7e3ee;
+  border-radius:8px;
+  overflow:hidden;
+  margin-top:6px;
+}
+.mission-bar{height:100%;background:var(--purple);border-radius:8px}
+.claim-btn{
+  padding:8px 12px;
+  border-radius:14px;
+  background:linear-gradient(135deg,var(--pink),#fb7d73);
+  color:#fff;
+  font-weight:bold;
+  font-size:12px;
+  min-height:38px;
+}
+.claim-btn:disabled{
+  background:#ddd8eb;
+  color:#9a96a9;
+  cursor:not-allowed;
+}
+
+.days{display:flex;gap:4px;margin:16px 0}
+.day{
+  flex:1;
+  border-radius:12px;
+  background:#f0eef8;
+  padding:8px 2px;
+  font-size:9px;
+  text-align:center;
+  font-weight:bold;
+}
+.day.active{background:#ffe293;color:#795509;box-shadow:0 2px 8px rgba(255,201,82,0.4)}
+.day.claimed{opacity:.6;background:#e1ddef}
+.day span{display:block;font-size:18px;margin-top:3px}
+
+/* Modal */
+.modal{
+  position:fixed;
+  inset:0;
+  background:#29244199;
+  z-index:90;
+  display:grid;
+  place-items:center;
+  padding:20px;
+  animation:fadeIn .2s ease-out;
+}
+@keyframes fadeIn{from{opacity:0}}
+.modal>div{
+  width:min(410px,100%);
+  background:#fff;
+  border-radius:26px;
+  padding:22px 18px;
+  text-align:center;
+  max-height:85vh;
+  overflow-y:auto;
+  position:relative;
+  box-shadow:0 12px 36px rgba(41,37,65,0.3);
+}
+.modal-close{
+  position:absolute;
+  top:14px;
+  right:14px;
+  width:34px;
+  height:34px;
+  min-height:34px;
+  border-radius:50%;
+  background:#f0edf8;
+  font-size:18px;
+  font-weight:bold;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  color:#635d79;
+}
+
+/* Nav */
+nav{
+  position:fixed;
+  z-index:20;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  height:74px;
+  width:100%;
+  max-width:460px;
+  background:#fff;
+  display:flex;
+  justify-content:space-around;
+  padding:8px 16px calc(env(safe-area-inset-bottom) + 6px);
+  box-shadow:0 -3px 14px var(--shadow);
+}
+nav button{
+  background:transparent;
+  color:#858096;
+  font-size:22px;
+  min-width:58px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  border-radius:12px;
+  padding:2px 0;
+}
+nav button.active{color:var(--purple);font-weight:bold}
+nav small{display:block;font-size:10px;font-weight:bold;margin-top:2px}
+
+/* Toast */
+#toast{
+  position:fixed;
+  z-index:100;
+  top:16px;
+  left:50%;
+  transform:translate(-50%,-120px);
+  background:#292541;
+  color:#fff;
+  padding:10px 16px;
+  border-radius:24px;
+  font-size:13px;
+  font-weight:bold;
+  transition:transform .25s ease;
+  max-width:min(calc(100vw - 32px), 380px);
+  white-space:normal;
+  text-align:center;
+  word-break:break-word;
+  box-shadow:0 8px 24px rgba(0,0,0,0.25);
+  pointer-events:none;
+}
+#toast.show{transform:translate(-50%,0)}
+
+@media(max-width:340px){
+  .app{padding-left:10px;padding-right:10px}
+  .pgrid{grid-template-columns:repeat(3,68px)}
+  .pgrid button{height:68px}
+  .box-big{width:180px;height:120px;font-size:62px}
+  .boxes{gap:8px}
+  .card{padding:8px}
+  .diff-grid.cols-4{grid-template-columns:repeat(4,56px);gap:6px}
+  .diff-grid.cols-4 button{height:56px;font-size:24px}
+  .mem-grid.size-10{grid-template-columns:repeat(5,48px);gap:6px}
+  .mem-grid.size-10 button{height:50px;font-size:20px}
+}
+</style>
+</head>
+<body>
+<main class="app">
+  <header>
+    <button id="back" class="back" aria-label="Back">‹</button>
+    <h1>Mystery <b>ASMR</b></h1>
+    <div class="coins">🪙 <span id="coins">250</span></div>
+  </header>
+  <section id="screen"></section>
+  <nav>
+    <button data-go="home">⌂<small>Home</small></button>
+    <button data-go="boxes">▣<small>Boxes</small></button>
+    <button data-go="daily">🎁<small>Daily</small></button>
+    <button data-go="collection">✦<small>Collection</small></button>
+  </nav>
+</main>
+<div id="toast"></div>
+
+<script>
+/* =========================================================
+   MYSTERY ASMR: UNBOX & SOLVE - V0.9
+   ========================================================= */
+
+const BOXES = [
+  ['Toy Box', '🧸', '#ffad69', 0, 'Peel tape'],
+  ['Food Box', '🍩', '#f49fbd', 50, 'Cut seal'],
+  ['Animal Box', '🐼', '#81d1b8', 75, 'Pop bubbles'],
+  ['Sneaker Box', '👟', '#779df4', 100, 'Pull zipper'],
+  ['Treasure Box', '💎', '#9b74d8', 150, 'Scratch reveal']
+];
+
+const G = ['Toys', 'Food', 'Animals', 'Sneakers', 'Treasure', 'Gadgets', 'Fantasy', 'Cute', 'Vehicles', 'Mystery'];
+const THEME_ICONS = ['🧸', '🍩', '🐼', '👟', '💎', '🎧', '🦄', '🌸', '🚗', '🔮'];
+
+const ITEMS = [
+  // 0: Toys
+  ['Teddy Bear', '🧸', 'Common', 0],
+  ['Toy Robot', '🤖', 'Rare', 0],
+  ['Bouncy Ball', '⚽', 'Epic', 0],
+  ['Mini Car', '🚗', 'Legendary', 0],
+  ['Toy Train', '🚂', 'Rare', 0],
+  // 1: Food
+  ['Donut', '🍩', 'Common', 1],
+  ['Cupcake', '🧁', 'Rare', 1],
+  ['Pizza Slice', '🍕', 'Epic', 1],
+  ['Candy', '🍬', 'Legendary', 1],
+  ['Cookie', '🍪', 'Epic', 1],
+  // 2: Animals
+  ['Panda', '🐼', 'Common', 2],
+  ['Kitten', '🐱', 'Rare', 2],
+  ['Fox', '🦊', 'Epic', 2],
+  ['Bunny', '🐰', 'Legendary', 2],
+  ['Otter', '🦦', 'Common', 2],
+  // 3: Sneakers
+  ['Star Sneaker', '👟', 'Common', 3],
+  ['Rainbow Sneaker', '🌈', 'Rare', 3],
+  ['Lightning Sneaker', '⚡', 'Epic', 3],
+  ['Golden Sneaker', '🥇', 'Legendary', 3],
+  ['Moon Sneaker', '🌙', 'Rare', 3],
+  // 4: Treasure
+  ['Treasure Coin', '🪙', 'Common', 4],
+  ['Pirate Map', '🗺️', 'Common', 4],
+  ['Magic Gem', '🔮', 'Rare', 4],
+  ['Crystal Crown', '👑', 'Epic', 4],
+  ['Golden Key', '🔑', 'Legendary', 4],
+  // 5: Gadgets
+  ['Watch', '⌚', 'Common', 5],
+  ['Headphones', '🎧', 'Rare', 5],
+  ['Game Pad', '🎮', 'Rare', 5],
+  ['Drone', '🛸', 'Epic', 5],
+  ['Robot Lamp', '🤖', 'Legendary', 5],
+  // 6: Fantasy
+  ['Dragon Egg', '🥚', 'Common', 6],
+  ['Fairy Wand', '🪄', 'Rare', 6],
+  ['Phoenix', '🪶', 'Rare', 6],
+  ['Unicorn', '🦄', 'Epic', 6],
+  ['Moon Crystal', '🌙', 'Legendary', 6],
+  // 7: Cute
+  ['Happy Cloud', '☁️', 'Common', 7],
+  ['Smile Star', '⭐', 'Rare', 7],
+  ['Tiny Cake', '🍰', 'Epic', 7],
+  ['Love Letter', '💌', 'Rare', 7],
+  ['Rainbow Cat', '🐈', 'Legendary', 7],
+  // 8: Vehicles
+  ['Scooter', '🛴', 'Common', 8],
+  ['Fire Truck', '🚒', 'Rare', 8],
+  ['Rocket Car', '🚀', 'Epic', 8],
+  ['Sailing Boat', '⛵', 'Rare', 8],
+  ['Gold Bus', '🚌', 'Legendary', 8],
+  // 9: Mystery
+  ['Secret Eye', '🧿', 'Common', 9],
+  ['Lucky Dice', '🎲', 'Rare', 9],
+  ['Mystery Orb', '🔵', 'Epic', 9],
+  ['Puzzle Cube', '🧊', 'Rare', 9],
+  ['Cosmic Door', '🚪', 'Legendary', 9]
+];
+
+const REWARDS = { Common: 50, Rare: 100, Epic: 250, Legendary: 500 };
+const D = { Common: 20, Rare: 40, Epic: 80, Legendary: 150 }; // Duplicate bonus
+const X = { Common: 10, Rare: 20, Epic: 40, Legendary: 100 }; // XP gain
+const COLORS = { Common: '#62b5ff', Rare: '#866bf4', Epic: '#e658a6', Legendary: '#efa92c' };
+const MILE = { 5: 100, 10: 200, 25: 500, 50: 1000 };
+
+/* =========================================================
+   STATE SYSTEM & NORMALIZATION
+   ========================================================= */
+
+function createDefaultState() {
+  return {
+    coins: 250,
+    collection: {},
+    opens: 0,
+    lastClaim: '',
+    dailyDay: 0,
+
+    sound: true,
+    haptics: true,
+    tutorial: false,
+
+    freeBox: 0,
+
+    xp: 0,
+    level: 1,
+
+    streak: 0,
+
+    combo: 0,
+    bestCombo: 0,
+
+    pity: 0,
+
+    sets: {},
+    setRewardsClaimed: {},
+    milestones: {},
+    streakRewards: {},
+    itemMasteryClaimed: {},
+
+    welcome: false,
+
+    puzzlesSolved: 0,
+    perfectPuzzles: 0,
+    puzzleMistakes: 0,
+
+    missions: {},
+    missionDate: '',
+
+    achievements: {},
+
+    questDate: '',
+    quests: {},
+    questHistory: {},
+    questBadges: {}
+  };
+}
+
+function normalizeState(s) {
+  const def = createDefaultState();
+  if (!s || typeof s !== 'object') return def;
+
+  return {
+    coins: Math.max(0, Number(s.coins) || 0),
+    collection: (s.collection && typeof s.collection === 'object') ? s.collection : {},
+    opens: Math.max(0, Number(s.opens) || 0),
+    lastClaim: typeof s.lastClaim === 'string' ? s.lastClaim : '',
+    dailyDay: Math.max(0, Math.min(6, Number(s.dailyDay) || 0)),
+
+    sound: s.sound !== undefined ? !!s.sound : def.sound,
+    haptics: s.haptics !== undefined ? !!s.haptics : def.haptics,
+    tutorial: !!s.tutorial,
+
+    freeBox: Math.max(0, Number(s.freeBox) || 0),
+
+    xp: Math.max(0, Number(s.xp) || 0),
+    level: Math.max(1, Number(s.level) || 1),
+
+    streak: Math.max(0, Number(s.streak) || 0),
+
+    combo: Math.max(0, Number(s.combo) || 0),
+    bestCombo: Math.max(0, Number(s.bestCombo) || 0),
+
+    pity: Math.max(0, Number(s.pity) || 0),
+
+    sets: (s.sets && typeof s.sets === 'object') ? s.sets : {},
+    setRewardsClaimed: (() => {
+      if (s.setRewardsClaimed && typeof s.setRewardsClaimed === 'object') {
+        return s.setRewardsClaimed;
+      }
+      const res = {};
+      if (s.sets && typeof s.sets === 'object') {
+        for (const k of Object.keys(s.sets)) {
+          if (s.sets[k]) res[k] = true;
+        }
+      }
+      return res;
+    })(),
+    milestones: (s.milestones && typeof s.milestones === 'object') ? s.milestones : {},
+    streakRewards: (s.streakRewards && typeof s.streakRewards === 'object') ? s.streakRewards : {},
+    itemMasteryClaimed: (s.itemMasteryClaimed && typeof s.itemMasteryClaimed === 'object') ? s.itemMasteryClaimed : {},
+
+    welcome: !!s.welcome,
+
+    puzzlesSolved: Math.max(0, Number(s.puzzlesSolved) || 0),
+    perfectPuzzles: Math.max(0, Number(s.perfectPuzzles) || 0),
+    puzzleMistakes: Math.max(0, Number(s.puzzleMistakes) || 0),
+
+    missions: (s.missions && typeof s.missions === 'object') ? s.missions : {},
+    missionDate: typeof s.missionDate === 'string' ? s.missionDate : '',
+
+    achievements: (s.achievements && typeof s.achievements === 'object') ? s.achievements : {},
+
+    questDate: typeof s.questDate === 'string' ? s.questDate : '',
+    quests: (s.quests && typeof s.quests === 'object') ? s.quests : {},
+    questHistory: (s.questHistory && typeof s.questHistory === 'object') ? s.questHistory : {},
+    questBadges: (s.questBadges && typeof s.questBadges === 'object') ? s.questBadges : {}
+  };
+}
+
+function load() {
+  try {
+    const raw = JSON.parse(localStorage.getItem('mysteryAsmrV2'));
+    return normalizeState(raw);
+  } catch (e) {
+    return createDefaultState();
+  }
+}
+
+let state = load();
+let currentBox = 0;
+let currentAction = '';
+let busy = false;
+let audio = null;
+let currentTab = 'home';
+let adCooldown = 0; // Session-only, never persisted
+let cFilter = 'All';
+let rFilter = 'All';
+
+const screen = document.querySelector('#screen');
+const back = document.querySelector('#back');
+const coinEl = document.querySelector('#coins');
+const toast = document.querySelector('#toast');
+
+function save() {
+  try {
+    localStorage.setItem('mysteryAsmrV2', JSON.stringify(state));
+  } catch (e) {}
+  if (coinEl) coinEl.textContent = state.coins;
+}
+
+function say(m) {
+  if (!toast) return;
+  toast.textContent = m;
+  toast.classList.add('show');
+  clearTimeout(say.t);
+  say.t = setTimeout(() => toast.classList.remove('show'), 2000);
+}
+
+function vib(p) {
+  if (state.haptics && navigator.vibrate) {
+    try { navigator.vibrate(p); } catch (e) {}
+  }
+}
+
+/* =========================================================
+   AUDIO SYNTHESIZER (WEB AUDIO API)
+   ========================================================= */
+
+function sound(type = 'tap') {
+  if (!state.sound) return;
+  try {
+    audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+    if (audio.state === 'suspended') audio.resume();
+    const now = audio.currentTime;
+
+    if (type === 'tap') {
+      const o = audio.createOscillator(), g = audio.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(440, now);
+      g.gain.setValueAtTime(0.04, now);
+      g.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+      o.connect(g); g.connect(audio.destination);
+      o.start(now); o.stop(now + 0.09);
+    } else if (type === 'drag') {
+      const o = audio.createOscillator(), g = audio.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(220, now);
+      g.gain.setValueAtTime(0.02, now);
+      g.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+      o.connect(g); g.connect(audio.destination);
+      o.start(now); o.stop(now + 0.07);
+    } else if (type === 'peel') {
+      const o = audio.createOscillator(), g = audio.createGain();
+      o.type = 'triangle';
+      o.frequency.setValueAtTime(320, now);
+      o.frequency.exponentialRampToValueAtTime(540, now + 0.22);
+      g.gain.setValueAtTime(0.05, now);
+      g.gain.exponentialRampToValueAtTime(0.001, now + 0.23);
+      o.connect(g); g.connect(audio.destination);
+      o.start(now); o.stop(now + 0.24);
+    } else if (type === 'cut') {
+      const o = audio.createOscillator(), g = audio.createGain();
+      o.type = 'sawtooth';
+      o.frequency.setValueAtTime(820, now);
+      o.frequency.exponentialRampToValueAtTime(400, now + 0.12);
+      g.gain.setValueAtTime(0.04, now);
+      g.gain.exponentialRampToValueAtTime(0.001, now + 0.13);
+      o.connect(g); g.connect(audio.destination);
+      o.start(now); o.stop(now + 0.14);
+    } else if (type === 'pop') {
+      const o = audio.createOscillator(), g = audio.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(680, now);
+      o.frequency.exponentialRampToValueAtTime(220, now + 0.1);
+      g.gain.setValueAtTime(0.07, now);
+      g.gain.exponentialRampToValueAtTime(0.001, now + 0.11);
+      o.connect(g); g.connect(audio.destination);
+      o.start(now); o.stop(now + 0.12);
+    } else if (type === 'zip') {
+      const o = audio.createOscillator(), g = audio.createGain();
+      o.type = 'sawtooth';
+      o.frequency.setValueAtTime(220, now);
+      o.frequency.linearRampToValueAtTime(360, now + 0.18);
+      g.gain.setValueAtTime(0.04, now);
+      g.gain.exponentialRampToValueAtTime(0.001, now + 0.19);
+      o.connect(g); g.connect(audio.destination);
+      o.start(now); o.stop(now + 0.2);
+    } else if (type === 'scratch') {
+      const o = audio.createOscillator(), g = audio.createGain();
+      o.type = 'sawtooth';
+      o.frequency.setValueAtTime(280, now);
+      o.frequency.linearRampToValueAtTime(180, now + 0.12);
+      g.gain.setValueAtTime(0.04, now);
+      g.gain.exponentialRampToValueAtTime(0.001, now + 0.13);
+      o.connect(g); g.connect(audio.destination);
+      o.start(now); o.stop(now + 0.14);
+    } else if (type === 'open') {
+      const o = audio.createOscillator(), g = audio.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(220, now);
+      o.frequency.exponentialRampToValueAtTime(440, now + 0.2);
+      g.gain.setValueAtTime(0.05, now);
+      g.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+      o.connect(g); g.connect(audio.destination);
+      o.start(now); o.stop(now + 0.26);
+    } else if (type === 'reveal') {
+      [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => {
+        const o = audio.createOscillator(), g = audio.createGain();
+        o.type = 'sine';
+        o.frequency.setValueAtTime(f, now + i * 0.06);
+        g.gain.setValueAtTime(0.04, now + i * 0.06);
+        g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.06 + 0.22);
+        o.connect(g); g.connect(audio.destination);
+        o.start(now + i * 0.06); o.stop(now + i * 0.06 + 0.24);
+      });
+    } else if (type === 'good') {
+      const o = audio.createOscillator(), g = audio.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(587.33, now);
+      o.frequency.exponentialRampToValueAtTime(880, now + 0.12);
+      g.gain.setValueAtTime(0.05, now);
+      g.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+      o.connect(g); g.connect(audio.destination);
+      o.start(now); o.stop(now + 0.16);
+    } else if (type === 'bad') {
+      const o = audio.createOscillator(), g = audio.createGain();
+      o.type = 'triangle';
+      o.frequency.setValueAtTime(180, now);
+      o.frequency.linearRampToValueAtTime(130, now + 0.18);
+      g.gain.setValueAtTime(0.06, now);
+      g.gain.exponentialRampToValueAtTime(0.001, now + 0.19);
+      o.connect(g); g.connect(audio.destination);
+      o.start(now); o.stop(now + 0.2);
+    } else if (type === 'coin') {
+      const o = audio.createOscillator(), g = audio.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(987.77, now);
+      o.frequency.exponentialRampToValueAtTime(1318.51, now + 0.11);
+      g.gain.setValueAtTime(0.05, now);
+      g.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+      o.connect(g); g.connect(audio.destination);
+      o.start(now); o.stop(now + 0.17);
+    } else if (type === 'epic') {
+      [440, 554.37, 659.25, 880].forEach((f, i) => {
+        const o = audio.createOscillator(), g = audio.createGain();
+        o.type = 'sine';
+        o.frequency.setValueAtTime(f, now + i * 0.07);
+        g.gain.setValueAtTime(0.05, now + i * 0.07);
+        g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.07 + 0.28);
+        o.connect(g); g.connect(audio.destination);
+        o.start(now + i * 0.07); o.stop(now + i * 0.07 + 0.3);
+      });
+    } else if (type === 'legendary') {
+      [440, 554.37, 659.25, 880, 1108.73, 1318.51].forEach((f, i) => {
+        const o = audio.createOscillator(), g = audio.createGain();
+        o.type = 'triangle';
+        o.frequency.setValueAtTime(f, now + i * 0.08);
+        g.gain.setValueAtTime(0.06, now + i * 0.08);
+        g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.35);
+        o.connect(g); g.connect(audio.destination);
+        o.start(now + i * 0.08); o.stop(now + i * 0.08 + 0.38);
+      });
+    } else if (type === 'levelup') {
+      [392, 523.25, 659.25, 783.99, 1046.5].forEach((f, i) => {
+        const o = audio.createOscillator(), g = audio.createGain();
+        o.type = 'sine';
+        o.frequency.setValueAtTime(f, now + i * 0.07);
+        g.gain.setValueAtTime(0.05, now + i * 0.07);
+        g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.07 + 0.2);
+        o.connect(g); g.connect(audio.destination);
+        o.start(now + i * 0.07); o.stop(now + i * 0.07 + 0.22);
+      });
+    } else if (type === 'combo') {
+      const baseF = Math.min(1200, 520 + (state.combo * 45));
+      const o = audio.createOscillator(), g = audio.createGain();
+      o.type = 'sine';
+      o.frequency.setValueAtTime(baseF, now);
+      o.frequency.exponentialRampToValueAtTime(baseF * 1.25, now + 0.09);
+      g.gain.setValueAtTime(0.05, now);
+      g.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+      o.connect(g); g.connect(audio.destination);
+      o.start(now); o.stop(now + 0.13);
+    } else if (type === 'milestone') {
+      [523.25, 659.25, 783.99, 1046.5, 1318.51].forEach((f, i) => {
+        const o = audio.createOscillator(), g = audio.createGain();
+        o.type = 'sine';
+        o.frequency.setValueAtTime(f, now + i * 0.09);
+        g.gain.setValueAtTime(0.05, now + i * 0.09);
+        g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.09 + 0.32);
+        o.connect(g); g.connect(audio.destination);
+        o.start(now + i * 0.09); o.stop(now + i * 0.09 + 0.35);
+      });
+    }
+  } catch (e) {}
+}
+
+function tap() { sound('tap'); vib(12); }
+function setBack(show) { if (back) back.style.visibility = show ? 'visible' : 'hidden'; }
+function nav(name) {
+  currentTab = name;
+  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('active', b.dataset.go === name));
+}
+function go(name) {
+  tap();
+  if (name === 'home') home();
+  else if (name === 'boxes') boxes();
+  else if (name === 'daily') daily();
+  else if (name === 'collection') collection();
+}
+
+function grp(item) { return G[item[3]]; }
+function xpNeed() { return state.level * 100; }
+function ncol() { return Object.keys(state.collection).length; }
+
+/* =========================================================
+   ITEM STAR MASTERY & DUPLICATE PRESTIGE (V0.9)
+   ========================================================= */
+
+function getItemStarLevel(itemName) {
+  const count = state.collection?.[itemName]?.count || 0;
+  if (count >= 5) return 3;
+  if (count >= 3) return 2;
+  if (count >= 1) return 1;
+  return 0;
+}
+
+function getItemMasteryProgress(itemName) {
+  const count = state.collection?.[itemName]?.count || 0;
+  if (count >= 5) return { stars: 3, count, nextTarget: null, remaining: 0, maxed: true };
+  if (count >= 3) return { stars: 2, count, nextTarget: 5, remaining: 5 - count, maxed: false };
+  if (count >= 1) return { stars: 1, count, nextTarget: 3, remaining: 3 - count, maxed: false };
+  return { stars: 0, count: 0, nextTarget: 1, remaining: 1, maxed: false };
+}
+
+function processItemMastery(itemName) {
+  const count = state.collection?.[itemName]?.count || 0;
+  state.itemMasteryClaimed = state.itemMasteryClaimed || {};
+  state.itemMasteryClaimed[itemName] = state.itemMasteryClaimed[itemName] || { silver: false, gold: false };
+  const claims = state.itemMasteryClaimed[itemName];
+  const results = { silverAwarded: false, goldAwarded: false, bonusCoins: 0, bonusFreeBoxes: 0, messages: [] };
+
+  if (count >= 3 && !claims.silver) {
+    claims.silver = true;
+    state.coins += 100;
+    results.silverAwarded = true;
+    results.bonusCoins += 100;
+    results.messages.push('✨ SILVER MASTERY! +100 🪙');
+  }
+  if (count >= 5 && !claims.gold) {
+    claims.gold = true;
+    state.coins += 250;
+    state.freeBox += 1;
+    results.goldAwarded = true;
+    results.bonusCoins += 250;
+    results.bonusFreeBoxes += 1;
+    results.messages.push('👑 GOLD FOIL MASTERY! +250 🪙 +1 FREE BOX!');
+  }
+  return results;
+}
+
+function getTotalStars() {
+  return ITEMS.reduce((acc, it) => acc + getItemStarLevel(it[0]), 0);
+}
+
+function getDifficulty() {
+  return Math.min(6, Math.floor((state.level - 1) / 2) + 1);
+}
+
+function addXp(amt) {
+  state.xp += amt;
+  let leveledUp = false;
+  let levelsGained = 0;
+  while (state.xp >= xpNeed()) {
+    state.xp -= xpNeed();
+    state.level++;
+    state.coins += 100;
+    leveledUp = true;
+    levelsGained++;
+    if (state.level === 2) say('🔓 Food Box Unlocked!');
+    else if (state.level === 5) say('🔓 Treasure Box Unlocked!');
+  }
+  if (leveledUp) {
+    sound('levelup');
+  }
+  save();
+  return { leveledUp, levelsGained };
+}
+
+/* Fisher-Yates Shuffle */
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function today() {
+  const d = new Date();
+  return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+}
+
+/* =========================================================
+   DAILY MISSIONS SYSTEM
+   ========================================================= */
+
+function checkDailyReset() {
+  const t = today();
+  if (state.missionDate !== t) {
+    state.missionDate = t;
+    state.missions = {
+      m1: { progress: 0, target: 3, reward: 50, name: 'Open 3 boxes', claimed: false },
+      m2: { progress: 0, target: 2, reward: 75, name: 'Solve 2 puzzles', claimed: false },
+      m3: { progress: 0, target: 1, reward: 100, name: 'Find 1 Rare+ item', claimed: false }
+    };
+    save();
+  }
+}
+
+function updateMissionProgress(id, amt = 1) {
+  checkDailyReset();
+  if (state.missions[id] && !state.missions[id].claimed) {
+    state.missions[id].progress = Math.min(state.missions[id].target, state.missions[id].progress + amt);
+    save();
+  }
+}
+
+function claimMission(id) {
+  tap();
+  checkDailyReset();
+  const m = state.missions[id];
+  if (!m || m.claimed || m.progress < m.target) return;
+  m.claimed = true;
+  state.coins += m.reward;
+  save();
+  sound('coin');
+  vib(30);
+  say(`Mission Complete! +${m.reward} Coins`);
+  daily();
+}
+
+/* =========================================================
+   MASTERY QUEST BOARD (V1.0)
+   ========================================================= */
+
+function getQuestPool() {
+  return [
+    { id:'toy_collector', name:'Toy Collector', description:'Open 5 Toy Boxes', type:'box_opened', box:0, target:5, rewardCoins:50, rewardFreeBoxes:0, rewardBadge:'🎁' },
+    { id:'treasure_trail', name:'Treasure Trail', description:'Find a Rare+ item from Treasure', type:'item_revealed', box:4, rarity:'Rare', target:1, rewardCoins:100, rewardFreeBoxes:0, rewardBadge:'💎' },
+    { id:'silver_hunter', name:'Silver Hunter', description:'Reach ★★ mastery on one item', type:'item_mastery', stars:2, target:1, rewardCoins:100, rewardFreeBoxes:0, rewardBadge:'🥈' },
+    { id:'puzzle_sprint', name:'Puzzle Sprint', description:'Solve 5 puzzles', type:'puzzle_solved', target:5, rewardCoins:75, rewardFreeBoxes:0, rewardBadge:'🧩' },
+    { id:'perfect_run', name:'Perfect Run', description:'Complete 2 puzzles perfectly', type:'perfect_puzzle', target:2, rewardCoins:100, rewardFreeBoxes:0, rewardBadge:'✨' },
+    { id:'theme_explorer', name:'Theme Explorer', description:'Collect 3 unique Fantasy items', type:'theme_unique', theme:'Fantasy', target:3, rewardCoins:100, rewardFreeBoxes:0, rewardBadge:'🌈' },
+    { id:'collector_quest', name:'Collector', description:'Discover 5 new unique items', type:'new_item', target:5, rewardCoins:150, rewardFreeBoxes:1, rewardBadge:'🏆' }
+  ];
+}
+
+function questCycleKey() { return today(); }
+function questCopy(q) { return { ...q, progress:0, claimed:false, completed:false }; }
+
+function initializeQuests() {
+  const existing = Object.values(state.quests || {});
+  const hasUnclaimedCompleted = existing.some(q => q && q.completed && !q.claimed);
+  if (state.questDate === questCycleKey() && existing.length === 3) return;
+  if (hasUnclaimedCompleted) return;
+  const pool = getQuestPool();
+  const dateSeed = Array.from(questCycleKey()).reduce((n, c) => n + c.charCodeAt(0), 0);
+  const chosen = [];
+  for (let i = 0; chosen.length < 3; i++) {
+    const candidate = pool[(dateSeed + i * 3) % pool.length];
+    if (!chosen.some(q => q.id === candidate.id)) chosen.push(questCopy(candidate));
+  }
+  state.quests = Object.fromEntries(chosen.map(q => [q.id, q]));
+  state.questDate = questCycleKey();
+  save();
+}
+
+function updateQuestProgress(eventType, data = {}) {
+  initializeQuests();
+  let changed = false;
+  Object.values(state.quests).forEach(q => {
+    if (!q || q.claimed || q.completed || q.type !== eventType) return;
+    let qualifies = false;
+    if (eventType === 'box_opened') qualifies = q.box === data.box;
+    else if (eventType === 'item_revealed') qualifies = q.box === data.box && ['Rare','Epic','Legendary'].indexOf(data.rarity) >= ['Rare','Epic','Legendary'].indexOf(q.rarity);
+    else if (eventType === 'item_mastery') qualifies = data.stars === q.stars;
+    else if (eventType === 'theme_unique') qualifies = data.theme === q.theme;
+    else qualifies = true;
+    if (!qualifies) return;
+    q.progress = Math.min(q.target, q.progress + 1);
+    if (q.progress >= q.target) { q.completed = true; say(`🎯 Quest Complete: ${q.name}!`); }
+    changed = true;
+  });
+  if (changed) save();
+}
+
+function syncThemeQuestProgress(theme) {
+  initializeQuests();
+  Object.values(state.quests).forEach(q => {
+    if (!q || q.claimed || q.completed || q.type !== 'theme_unique' || q.theme !== theme) return;
+    q.progress = Math.min(q.target, ITEMS.filter(i => grp(i) === theme && state.collection[i[0]]).length);
+    if (q.progress >= q.target) { q.completed = true; say(`🎯 Quest Complete: ${q.name}!`); }
+  });
+  save();
+}
+
+function claimQuest(id) {
+  const q = state.quests && state.quests[id];
+  if (!q || q.claimed || q.progress < q.target) return;
+  q.claimed = true;
+  state.coins += q.rewardCoins || 0;
+  state.freeBox += q.rewardFreeBoxes || 0;
+  state.questBadges[id] = state.questBadges[id] || { earned:true, earnedDate:today(), badge:q.rewardBadge, name:q.name };
+  state.questHistory[id + ':' + state.questDate] = { claimedDate:today(), name:q.name, badge:q.rewardBadge };
+  save(); sound('milestone'); vib([35,25,55]);
+  say(`Quest claimed: +${q.rewardCoins || 0} 🪙${q.rewardFreeBoxes ? ' +1 Free Box' : ''}`);
+  if (currentTab === 'daily') daily(); else home();
+}
+
+function renderQuestBoard(compact = false) {
+  initializeQuests();
+  const quests = Object.values(state.quests);
+  const complete = quests.filter(q => q.completed).length;
+  return `<div class="title"><h2>Quest Board</h2><span class="badge gold">${complete}/3 complete</span></div><div class="quest-board">${quests.map(q => `<div class="mission-card"><div class="mission-info"><b>${q.rewardBadge} ${q.name}</b><small>${q.description}</small><div class="mission-progress"><div class="mission-bar" style="width:${Math.min(100, q.progress / q.target * 100)}%"></div></div><small>${q.progress}/${q.target}${q.claimed ? ' · CLAIMED' : q.completed ? ' · READY!' : ''}</small></div>${q.claimed ? '<span class="badge">✓</span>' : q.completed ? `<button class="claim-btn" onclick="claimQuest('${q.id}')">+${q.rewardCoins} 🪙${q.rewardFreeBoxes ? ' 🎁' : ''}</button>` : ''}</div>`).join('')}</div>`;
+}
+
+/* =========================================================
+   ACHIEVEMENTS SYSTEM
+   ========================================================= */
+
+const ACHIEVEMENT_DEFS = [
+  { id: 'first_unbox', name: 'First Unbox', desc: 'Open 1 box', reward: 50, check: () => state.opens >= 1 },
+  { id: 'collector_10', name: 'Collector', desc: 'Collect 10 items', reward: 100, check: () => ncol() >= 10 },
+  { id: 'rare_find', name: 'Rare Find', desc: 'Get a Rare item', reward: 75, check: (it) => it && it[2] === 'Rare' },
+  { id: 'epic_find', name: 'Epic Find', desc: 'Get an Epic item', reward: 150, check: (it) => it && it[2] === 'Epic' },
+  { id: 'legendary_find', name: 'Legendary Find', desc: 'Get a Legendary item', reward: 300, check: (it) => it && it[2] === 'Legendary' },
+  { id: 'puzzle_master', name: 'Puzzle Master', desc: 'Solve 10 puzzles', reward: 150, check: () => state.puzzlesSolved >= 10 },
+  { id: 'perfect_player', name: 'Perfect Player', desc: '5 perfect puzzles', reward: 200, check: () => state.perfectPuzzles >= 5 },
+  { id: 'combo_king', name: 'Combo King', desc: 'Reach 10 combo', reward: 250, check: () => state.bestCombo >= 10 },
+  { id: 'big_collector', name: 'Big Collector', desc: 'Collect 25 items', reward: 300, check: () => ncol() >= 25 },
+  { id: 'completionist', name: 'Completionist', desc: 'Collect everything', reward: 1000, check: () => ncol() >= ITEMS.length }
+];
+
+function checkAchievements(contextItem = null) {
+  ACHIEVEMENT_DEFS.forEach(ach => {
+    if (!state.achievements[ach.id] && ach.check(contextItem)) {
+      state.achievements[ach.id] = true;
+      state.coins += ach.reward;
+      sound('milestone');
+      vib([40, 30, 60]);
+      say(`🏆 Achievement: ${ach.name} (+${ach.reward} 🪙)`);
+    }
+  });
+  save();
+}
+
+/* =========================================================
+   HOME SCREEN
+   ========================================================= */
+
+function home() {
+  busy = false;
+  setBack(false);
+  nav('home');
+  checkDailyReset();
+
+  const xpPct = Math.min(100, Math.round((state.xp / xpNeed()) * 100));
+  const motivational = shuffle([
+    'Something cute is waiting inside!',
+    'Can you find the next Legendary?',
+    'Keep your puzzle combo alive!',
+    'Open boxes to grow your collection!',
+    'One more box?'
+  ])[0];
+
+  screen.innerHTML = `
+    <div class="hero">
+      <h2>Mystery ASMR</h2>
+      <p class="sub">${motivational}</p>
+      <div class="progress-wrap">
+        <div class="progress" style="width:${xpPct}%"></div>
+      </div>
+      <b class="percent">LEVEL ${state.level} · ${state.xp} / ${xpNeed()} XP</b>
+    </div>
+
+    <div class="stats-bar">
+      <div><span>🔥 ${state.streak}</span>Streak</div>
+      <div><span>⚡ ${state.combo}</span>Combo</div>
+      <div><span>📦 ${state.opens}</span>Opened</div>
+      <div><span>✦ ${ncol()}/${ITEMS.length}</span>Collected</div>
+    </div>
+
+    <div class="stage">
+      <i class="spark">✦</i><i class="spark">♡</i><i class="spark">✧</i>
+      <div class="box-big">?</div>
+    </div>
+
+    <button class="primary" onclick="boxes()">OPEN A MYSTERY BOX</button>
+
+    ${renderQuestBoard(true)}
+
+    <div class="quick">
+      <button onclick="daily()"><span>🎁</span>Daily</button>
+      <button onclick="collection()"><span>✦</span>Collection</button>
+      <button onclick="settings()"><span>⚙</span>Settings</button>
+      <button onclick="rewardedAdForCoins()"><span>🎬</span>+50 🪙</button>
+      <button onclick="rewardedAdForFreeBox()"><span>🎬</span>Free Box</button>
+      <button onclick="showAchievementsModal()"><span>🏆</span>Badges</button>
+    </div>
+  `;
+
+  if (!state.tutorial) {
+    setTimeout(() => {
+      if (currentTab === 'home' && !state.tutorial) tutorial();
+    }, 350);
+  }
+}
+
+/* =========================================================
+   BOX PROGRESSION & UNLOCK SYSTEM (V0.8)
+   ========================================================= */
+
+function getBoxUnlockInfo(i) {
+  if (i < 0 || i >= BOXES.length) {
+    return { unlocked: false, reason: 'Unknown box', progressText: '', current: 0, target: 1, pct: 0 };
+  }
+  if (i === 0) {
+    return {
+      unlocked: true,
+      reason: 'Starter Box',
+      progressText: 'Unlocked',
+      current: 1,
+      target: 1,
+      pct: 100
+    };
+  }
+  if (i === 1) {
+    const target = 2;
+    const current = Math.min(target, state.level);
+    const unlocked = state.level >= target;
+    const pct = Math.round((current / target) * 100);
+    return {
+      unlocked,
+      reason: 'Requires Level 2',
+      progressText: `Level ${state.level} / ${target}`,
+      current,
+      target,
+      pct
+    };
+  }
+  if (i === 2) {
+    const target = 5;
+    const collected = ncol();
+    const current = Math.min(target, collected);
+    const unlocked = collected >= target;
+    const pct = Math.round((current / target) * 100);
+    return {
+      unlocked,
+      reason: 'Requires 5 Items Collected',
+      progressText: `${collected} / ${target} Items`,
+      current,
+      target,
+      pct
+    };
+  }
+  if (i === 3) {
+    const target = 8;
+    const opens = state.opens;
+    const current = Math.min(target, opens);
+    const unlocked = opens >= target;
+    const pct = Math.round((current / target) * 100);
+    return {
+      unlocked,
+      reason: 'Requires 8 Boxes Opened',
+      progressText: `${opens} / ${target} Opened`,
+      current,
+      target,
+      pct
+    };
+  }
+  if (i === 4) {
+    const totalMastered = G.filter(g => (state.setRewardsClaimed && state.setRewardsClaimed[g]) || (state.sets && state.sets[g] === 1)).length;
+    const levelUnlocked = state.level >= 5;
+    const masteryUnlocked = totalMastered >= 1;
+    const unlocked = levelUnlocked || masteryUnlocked;
+    let progressText = '';
+    let current = Math.min(5, state.level);
+    let target = 5;
+    let pct = Math.round((current / target) * 100);
+
+    if (masteryUnlocked) {
+      progressText = `${totalMastered}/1 Set Mastered`;
+      pct = 100;
+      current = 5;
+    } else {
+      progressText = `Level ${state.level} / 5 (or ${totalMastered}/1 Set)`;
+    }
+
+    return {
+      unlocked,
+      reason: 'Level 5 or 1 Theme Set Mastered',
+      progressText,
+      current,
+      target,
+      pct
+    };
+  }
+  return { unlocked: true, reason: '', progressText: '', current: 1, target: 1, pct: 100 };
+}
+
+function isBoxUnlocked(i) {
+  return getBoxUnlockInfo(i).unlocked;
+}
+
+/* =========================================================
+   BOX SELECTION SCREEN
+   ========================================================= */
+
+function boxes() {
+  busy = false;
+  setBack(false);
+  nav('boxes');
+  checkDailyReset();
+
+  screen.innerHTML = `
+    <div class="title">
+      <h2>Choose a Box</h2>
+      <span class="badge ${state.freeBox > 0 ? 'gold' : ''}">🎁 ${state.freeBox} Free Box${state.freeBox === 1 ? '' : 'es'}</span>
+    </div>
+    <div class="boxes">
+      ${BOXES.map((b, i) => {
+        const ownedCount = ITEMS.filter(x => x[3] === i && state.collection[x[0]]).length;
+        const totalCount = ITEMS.filter(x => x[3] === i).length;
+        const isFree = b[3] === 0;
+        const canUseFreePass = !isFree && state.freeBox > 0;
+        const costLabel = isFree ? 'FREE' : canUseFreePass ? '🎁 FREE BOX' : `🪙 ${b[3]}`;
+        const unlockInfo = getBoxUnlockInfo(i);
+
+        if (!unlockInfo.unlocked) {
+          return `
+            <button class="card locked-box" onclick="startBox(${i})">
+              <div class="mini" style="--c:${b[2]}">${b[1]}</div>
+              <b>${b[0]}</b>
+              <div class="lock-req">🔒 ${unlockInfo.reason}</div>
+              <div class="lock-progress-wrap">
+                <div class="lock-progress-bar" style="width:${unlockInfo.pct}%"></div>
+              </div>
+              <small class="lock-progress-text">${unlockInfo.progressText}</small>
+              <span class="cost locked-cost">🪙 ${b[3]} · Locked</span>
+            </button>
+          `;
+        }
+
+        return `
+          <button class="card" onclick="startBox(${i})">
+            <div class="mini" style="--c:${b[2]}">${b[1]}</div>
+            <b>${b[0]}</b>
+            <small>${ownedCount}/${totalCount} items in theme</small>
+            <span class="cost">${costLabel}</span>
+          </button>
+        `;
+      }).join('')}
+    </div>
+  `;
+}
+
+function startBox(i) {
+  if (busy) return;
+  const unlockInfo = getBoxUnlockInfo(i);
+  if (!unlockInfo.unlocked) {
+    sound('bad');
+    vib(25);
+    return say(`🔒 Locked! ${unlockInfo.reason} (${unlockInfo.progressText})`);
+  }
+
+  const cost = BOXES[i][3];
+  const isFree = cost === 0;
+  const useFreePass = !isFree && state.freeBox > 0;
+
+  if (!isFree && !useFreePass && state.coins < cost) {
+    sound('bad');
+    vib(25);
+    return say(`You need ${cost} coins for this box!`);
+  }
+
+  busy = true;
+  if (useFreePass) {
+    state.freeBox--;
+  } else if (!isFree) {
+    state.coins -= cost;
+  }
+  currentBox = i;
+  updateQuestProgress('box_opened', { box:i });
+  save();
+  tap();
+  asmr();
+}
+
+/* =========================================================
+   RANDOM ASMR INTERACTION SYSTEM
+   ========================================================= */
+
+const ASMR_ACTIONS = [
+  { id: 'tape', title: 'Peel The Tape', icon: '🫳', instruction: 'Drag upward to remove the tape' },
+  { id: 'seal', title: 'Cut The Seal', icon: '✂️', instruction: 'Drag across to slice the wax seal' },
+  { id: 'bubble', title: 'Pop Bubbles', icon: '👆', instruction: 'Tap and glide over all the bubbles' },
+  { id: 'zip', title: 'Pull Zipper', icon: '🫳', instruction: 'Drag the zipper smoothly to the right' },
+  { id: 'scratch', title: 'Scratch Reveal', icon: '🪙', instruction: 'Scratch across the coating to reveal' }
+];
+
+function asmr(forcedActionId = null) {
+  const actionDef = (forcedActionId && ASMR_ACTIONS.find(x => x.id === forcedActionId)) || ASMR_ACTIONS[Math.floor(Math.random() * ASMR_ACTIONS.length)];
+  currentAction = actionDef.id;
+  const b = BOXES[currentBox];
+
+  setBack(true);
+  screen.innerHTML = `
+    <div class="task">
+      <h2>${actionDef.title}</h2>
+      <p class="sub">${actionDef.instruction}</p>
+      <div id="interact" class="interact">
+        <div class="parcel" style="--c:${b[2]}"></div>
+        ${
+          currentAction === 'tape' ? '<div class="tape" id="actElem"></div>' :
+          currentAction === 'seal' ? '<div class="seal" id="actElem">📜</div>' :
+          currentAction === 'bubble' ? `<div class="bubble-grid" id="bubbleGrid">${Array.from({length:25}).map((_,idx)=>`<div class="bubble-item" id="bub_${idx}"></div>`).join('')}</div>` :
+          currentAction === 'zip' ? `<div class="zip-track"><div class="zip-line" id="zipLine"></div><div class="zipper-handle" id="actElem">🤐</div></div>` :
+          `<div class="scratch-overlay" id="actElem">✨</div>`
+        }
+        <div class="tool" id="tool">${actionDef.icon}</div>
+      </div>
+      <div class="progress-wrap">
+        <div id="progress" class="progress"></div>
+      </div>
+      <b id="pct" class="percent">0%</b>
+    </div>
+  `;
+
+  const area = document.querySelector('#interact');
+  const tool = document.querySelector('#tool');
+  const act = document.querySelector('#actElem');
+  const progressBar = document.querySelector('#progress');
+  const pctText = document.querySelector('#pct');
+
+  let progress = 0;
+  let last = { x: 0, y: 0, id: null };
+  let isDragging = false;
+  let completed = false;
+  const popped = new Set();
+
+  function updateProgress(val) {
+    if (completed) return;
+    progress = Math.min(100, Math.max(progress, val));
+    if (progressBar) progressBar.style.width = progress + '%';
+    if (pctText) pctText.textContent = Math.round(progress) + '%';
+
+    if (progress >= 100) {
+      completed = true;
+      isDragging = false;
+      if (area) area.classList.add('done');
+      sound(currentAction);
+      vib(25);
+      setTimeout(() => {
+        if (document.querySelector('#interact')) puzzle();
+      }, 520);
+    }
+  }
+
+  function checkBubblePop(clientX, clientY) {
+    if (completed) return;
+    const r = area.getBoundingClientRect();
+    const gridLeft = r.left + 20;
+    const gridTop = r.top + 30;
+    const gridWidth = r.width - 40;
+    const gridHeight = r.height - 60;
+    const col = Math.floor(((clientX - gridLeft) / gridWidth) * 5);
+    const row = Math.floor(((clientY - gridTop) / gridHeight) * 5);
+    if (col >= 0 && col < 5 && row >= 0 && row < 5) {
+      const idx = row * 5 + col;
+      if (!popped.has(idx)) {
+        popped.add(idx);
+        const bEl = document.querySelector('#bub_' + idx);
+        if (bEl) bEl.classList.add('popped');
+        sound('pop');
+        vib(10);
+        updateProgress((popped.size / 18) * 100);
+      }
+    }
+  }
+
+  area.addEventListener('pointerdown', e => {
+    if (progress >= 100 || completed) return;
+    e.preventDefault();
+    isDragging = true;
+    last = { x: e.clientX, y: e.clientY, id: e.pointerId };
+    try { area.setPointerCapture(e.pointerId); } catch (err) {}
+    sound('drag');
+
+    const r = area.getBoundingClientRect();
+    tool.style.left = (e.clientX - r.left) + 'px';
+    tool.style.top = (e.clientY - r.top) + 'px';
+
+    if (currentAction === 'bubble') {
+      checkBubblePop(e.clientX, e.clientY);
+    }
+  }, { passive: false });
+
+  area.addEventListener('pointermove', e => {
+    if (!isDragging || progress >= 100 || completed) return;
+    e.preventDefault();
+    const r = area.getBoundingClientRect();
+    const dx = e.clientX - last.x;
+    const dy = e.clientY - last.y;
+
+    tool.style.left = (e.clientX - r.left) + 'px';
+    tool.style.top = (e.clientY - r.top) + 'px';
+
+    if (currentAction === 'tape') {
+      const upwardDist = Math.max(0, -dy);
+      updateProgress(progress + (upwardDist / 1.6));
+      if (act) act.style.transform = `translateY(${-progress * 0.9}px) rotate(${-progress * 0.15}deg)`;
+    } else if (currentAction === 'seal') {
+      const sliceDist = Math.abs(dx);
+      updateProgress(progress + (sliceDist / 1.5));
+      if (act) act.style.transform = `scale(${Math.max(0.2, 1 - progress / 140)}) rotate(${progress * 2.2}deg)`;
+    } else if (currentAction === 'bubble') {
+      checkBubblePop(e.clientX, e.clientY);
+    } else if (currentAction === 'zip') {
+      const rightDist = Math.max(0, dx);
+      updateProgress(progress + (rightDist / 1.5));
+      if (act) act.style.left = `${(progress / 100) * 210}px`;
+    } else if (currentAction === 'scratch') {
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      updateProgress(progress + (dist / 2.2));
+      if (act) {
+        act.style.opacity = Math.max(0, 1 - (progress / 85));
+        if (progress > 80) act.classList.add('revealed');
+      }
+    }
+
+    last.x = e.clientX;
+    last.y = e.clientY;
+  }, { passive: false });
+
+  const stopDrag = () => { isDragging = false; };
+  area.addEventListener('pointerup', stopDrag);
+  area.addEventListener('pointercancel', stopDrag);
+}
+
+/* =========================================================
+   PUZZLE ENGINE (7 PUZZLES & PROGRESSIVE DIFFICULTY)
+   ========================================================= */
+
+function puzzle(forcedPuzzleIndex = null) {
+  busy = false;
+  state.puzzleMistakes = 0; // Reset mistakes for this puzzle
+  setBack(true);
+
+  const difficulty = getDifficulty();
+  const puzzleIndex = (forcedPuzzleIndex !== null && forcedPuzzleIndex !== undefined) ? forcedPuzzleIndex : Math.floor(Math.random() * 7);
+
+  if (puzzleIndex === 0) keyPuzzle(difficulty);
+  else if (puzzleIndex === 1) matchPuzzle(difficulty);
+  else if (puzzleIndex === 2) orderPuzzle(difficulty);
+  else if (puzzleIndex === 3) sortPuzzle(difficulty);
+  else if (puzzleIndex === 4) hiddenPuzzle(difficulty);
+  else if (puzzleIndex === 5) tapDifferentPuzzle(difficulty);
+  else memoryMatchPuzzle(difficulty);
+}
+
+function success() {
+  if (busy) return;
+  busy = true;
+
+  state.puzzlesSolved++;
+  updateMissionProgress('m2', 1);
+  updateQuestProgress('puzzle_solved');
+
+  let perfect = false;
+  if (state.puzzleMistakes === 0) {
+    state.perfectPuzzles++;
+    perfect = true;
+    updateQuestProgress('perfect_puzzle');
+  }
+
+  sound('good');
+  vib(25);
+  say(perfect ? '✨ PERFECT PUZZLE! +25 🪙' : 'Solved! Great Job!');
+
+  setTimeout(() => {
+    if (document.querySelector('.puzzle') || document.querySelector('#screen')) {
+      reveal(perfect);
+    }
+  }, 480);
+}
+
+function wrong(el) {
+  state.puzzleMistakes++;
+  state.combo = 0; // Combo reset on puzzle mistake
+  sound('bad');
+  vib(20);
+  if (el) {
+    el.classList.add('bad');
+    setTimeout(() => el.classList.remove('bad'), 380);
+  }
+}
+
+/* Puzzle 1: Key Puzzle */
+function keyPuzzle() {
+  const arr = shuffle(['🔑', '🔑', '🔑', '🌟', '🍒', '🍀', '🍓', '🍋', '🍉']);
+  let found = 0;
+  screen.innerHTML = `
+    <div class="task puzzle">
+      <h2>Find The Keys</h2>
+      <p>Tap all 3 hidden keys to unlock the box.</p>
+      <div class="pgrid">
+        ${arr.map(x => `<button onclick="keyTap(this,'${x}')">${x}</button>`).join('')}
+      </div>
+      <div class="puzzle-status">
+        <span>Keys found: <b id="count">0</b>/3</span>
+        <span>Combo: <b>⚡ ${state.combo}</b></span>
+      </div>
+    </div>
+  `;
+  window.keyTap = (el, x) => {
+    if (el.disabled || busy) return;
+    if (x === '🔑') {
+      el.disabled = true;
+      el.classList.add('good');
+      sound('good');
+      vib(12);
+      found++;
+      const countEl = document.querySelector('#count');
+      if (countEl) countEl.textContent = found;
+      if (found === 3) success();
+    } else {
+      wrong(el);
+    }
+  };
+}
+
+/* Puzzle 2: Match Puzzle */
+function matchPuzzle() {
+  const target = shuffle(['🍬', '🍩', '🧁'])[0];
+  const arr = shuffle([target, target, target, '🍀', '🍒', '🍇', '🍓', '🍋', '🍉']);
+  const picked = [];
+
+  screen.innerHTML = `
+    <div class="task puzzle">
+      <h2>Match Three</h2>
+      <p>Find and tap 3 identical matching symbols.</p>
+      <div class="pgrid">
+        ${arr.map(x => `<button onclick="matchTap(this,'${x}')">${x}</button>`).join('')}
+      </div>
+      <div class="puzzle-status">
+        <span>Selected: <b id="matchCount">0</b>/3</span>
+        <span>Combo: <b>⚡ ${state.combo}</b></span>
+      </div>
+    </div>
+  `;
+
+  window.matchTap = (el, x) => {
+    if (el.disabled || picked.length >= 3 || busy) return;
+    el.disabled = true;
+    el.classList.add('good');
+    picked.push({ el, val: x });
+    sound('tap');
+
+    const countEl = document.querySelector('#matchCount');
+    if (countEl) countEl.textContent = picked.length;
+
+    if (picked.length === 3) {
+      if (picked.every(item => item.val === picked[0].val)) {
+        success();
+      } else {
+        wrong(el);
+        setTimeout(() => {
+          if (document.querySelector('.puzzle')) matchPuzzle();
+        }, 500);
+      }
+    }
+  };
+}
+
+/* Puzzle 3: Order Puzzle */
+function orderPuzzle() {
+  const order = ['🥕', '🍎', '🍇'];
+  const picked = [];
+
+  screen.innerHTML = `
+    <div class="task puzzle">
+      <h2>Put Them In Order</h2>
+      <p>Tap in sequence: Carrot 🥕 → Apple 🍎 → Grapes 🍇</p>
+      <div class="order">
+        ${shuffle(order).map(x => `<button onclick="orderTap(this,'${x}')">${x}</button>`).join('')}
+      </div>
+      <div class="slots">
+        <div class="slot" id="slot0">?</div>
+        <div class="slot" id="slot1">?</div>
+        <div class="slot" id="slot2">?</div>
+      </div>
+      <div class="puzzle-status">
+        <span>Step: <b id="orderStep">1</b>/3</span>
+        <span>Combo: <b>⚡ ${state.combo}</b></span>
+      </div>
+    </div>
+  `;
+
+  window.orderTap = (el, x) => {
+    if (el.disabled || busy) return;
+    if (x === order[picked.length]) {
+      el.disabled = true;
+      el.classList.add('good');
+      sound('good');
+      vib(10);
+      const slot = document.querySelector('#slot' + picked.length);
+      if (slot) slot.textContent = x;
+      picked.push(x);
+      const stepEl = document.querySelector('#orderStep');
+      if (stepEl) stepEl.textContent = Math.min(3, picked.length + 1);
+      if (picked.length === 3) success();
+    } else {
+      wrong(el);
+    }
+  };
+}
+
+/* Puzzle 4: Sort Puzzle */
+function sortPuzzle() {
+  const items = [
+    { emoji: '🔴', color: 'r' },
+    { emoji: '🔵', color: 'b' },
+    { emoji: '🔴', color: 'r' },
+    { emoji: '🔵', color: 'b' }
+  ];
+  let done = 0;
+  let selected = null;
+
+  screen.innerHTML = `
+    <div class="task puzzle">
+      <h2>Sort By Color</h2>
+      <p>Tap an orb, then tap its matching color bin.</p>
+      <div class="sort-items">
+        ${items.map((item, i) => `
+          <button class="sort-item" id="ball_${i}" onclick="chooseBall(${i},'${item.color}')">${item.emoji}</button>
+        `).join('')}
+      </div>
+      <div class="bins">
+        <button class="bin red" onclick="dropBall('r')"><span>🔴</span>RED BIN</button>
+        <button class="bin" onclick="dropBall('b')"><span>🔵</span>BLUE BIN</button>
+      </div>
+      <div class="puzzle-status">
+        <span>Sorted: <b id="sortDone">0</b>/4</span>
+        <span>Combo: <b>⚡ ${state.combo}</b></span>
+      </div>
+    </div>
+  `;
+
+  window.chooseBall = (i, color) => {
+    if (busy) return;
+    const el = document.querySelector('#ball_' + i);
+    if (!el || el.disabled) return;
+    document.querySelectorAll('.sort-item').forEach(b => b.classList.remove('good'));
+    el.classList.add('good');
+    selected = { idx: i, color, el };
+    sound('tap');
+  };
+
+  window.dropBall = (binColor) => {
+    if (busy) return;
+    if (!selected) return say('Tap an orb first!');
+    if (selected.color === binColor) {
+      selected.el.disabled = true;
+      selected.el.style.visibility = 'hidden';
+      done++;
+      sound('good');
+      vib(12);
+      selected = null;
+      const doneEl = document.querySelector('#sortDone');
+      if (doneEl) doneEl.textContent = done;
+      if (done === 4) success();
+    } else {
+      wrong(selected.el);
+      selected.el.classList.remove('good');
+      selected = null;
+    }
+  };
+}
+
+/* Puzzle 5: Hidden Object */
+function hiddenPuzzle() {
+  const leaves = ['🍀', '🍂', '🌿', '🌱'];
+  const grid = [];
+  for (let i = 0; i < 15; i++) {
+    grid.push(leaves[i % leaves.length]);
+  }
+  grid.push('🗝️');
+  const arr = shuffle(grid);
+
+  screen.innerHTML = `
+    <div class="task puzzle">
+      <h2>Find The Hidden Key</h2>
+      <p>Scan carefully among the garden leaves.</p>
+      <div class="hidden-grid">
+        ${arr.map(x => `<button onclick="hiddenTap(this,'${x}')">${x}</button>`).join('')}
+      </div>
+      <div class="puzzle-status">
+        <span>Find: <b>🗝️</b></span>
+        <span>Combo: <b>⚡ ${state.combo}</b></span>
+      </div>
+    </div>
+  `;
+
+  window.hiddenTap = (el, x) => {
+    if (el.disabled || busy) return;
+    if (x === '🗝️') {
+      el.disabled = true;
+      el.classList.add('good');
+      success();
+    } else {
+      wrong(el);
+    }
+  };
+}
+
+/* Puzzle 6: Tap The Different (NEW) */
+function tapDifferentPuzzle(diffLevel) {
+  const count = diffLevel <= 2 ? 9 : diffLevel <= 5 ? 12 : 16;
+  const cols = count === 9 ? 3 : 4;
+
+  const PAIRS = [
+    ['🐼', '🦊'], ['🐱', '🐶'], ['🍩', '🍪'], ['⭐', '🌙'],
+    ['🍎', '🍓'], ['💎', '👑'], ['🚗', '🚀'], ['👟', '🧦']
+  ];
+  const pair = shuffle(PAIRS)[0];
+  const commonEmoji = pair[0];
+  const diffEmoji = pair[1];
+
+  const tiles = Array(count - 1).fill(commonEmoji);
+  tiles.push(diffEmoji);
+  const shuffledTiles = shuffle(tiles);
+
+  screen.innerHTML = `
+    <div class="task puzzle">
+      <h2>Tap The Different One!</h2>
+      <p>Spot the odd object out in the grid.</p>
+      <div class="diff-grid cols-${cols}">
+        ${shuffledTiles.map(x => `<button class="diff-btn" onclick="diffTap(this,'${x}','${diffEmoji}')">${x}</button>`).join('')}
+      </div>
+      <div class="puzzle-status">
+        <span>Find the odd emoji!</span>
+        <span>Combo: <b>⚡ ${state.combo}</b></span>
+      </div>
+    </div>
+  `;
+
+  window.diffTap = (el, x, targetDiff) => {
+    if (el.disabled || busy) return;
+    if (x === targetDiff) {
+      el.disabled = true;
+      el.classList.add('good');
+      success();
+    } else {
+      wrong(el);
+    }
+  };
+}
+
+/* Puzzle 7: Memory Match (NEW) */
+function memoryMatchPuzzle(diffLevel) {
+  const pairCount = diffLevel <= 2 ? 3 : diffLevel <= 5 ? 4 : 5;
+  const cardPool = shuffle(['🧸', '🍩', '🐼', '👟', '💎', '🦄', '🚀', '⭐', '🎈', '🍪']).slice(0, pairCount);
+  const deck = shuffle([...cardPool, ...cardPool]);
+
+  let flippedCards = [];
+  let matchedPairs = 0;
+  let lockBoard = true;
+
+  screen.innerHTML = `
+    <div class="task puzzle">
+      <h2>Memory Match</h2>
+      <p id="memHelp">Memorize the cards!</p>
+      <div class="mem-grid size-${deck.length}" id="memGrid">
+        ${deck.map((emoji, idx) => `
+          <button class="mem-card flipped" id="mcard_${idx}" onclick="memCardTap(${idx},'${emoji}')">${emoji}</button>
+        `).join('')}
+      </div>
+      <div class="puzzle-status">
+        <span>Matched: <b id="memMatched">0</b>/${pairCount}</span>
+        <span>Combo: <b>⚡ ${state.combo}</b></span>
+      </div>
+    </div>
+  `;
+
+  setTimeout(() => {
+    if (!document.querySelector('.puzzle')) return;
+    document.querySelectorAll('.mem-card').forEach(c => {
+      c.classList.remove('flipped');
+      c.textContent = '?';
+    });
+    lockBoard = false;
+    const help = document.querySelector('#memHelp');
+    if (help) help.textContent = 'Find all matching pairs!';
+  }, 1200);
+
+  window.memCardTap = (idx, emoji) => {
+    if (lockBoard || busy) return;
+    const cardEl = document.querySelector('#mcard_' + idx);
+    if (!cardEl || cardEl.classList.contains('flipped') || cardEl.classList.contains('matched')) return;
+
+    cardEl.classList.add('flipped');
+    cardEl.textContent = emoji;
+    sound('tap');
+    flippedCards.push({ idx, emoji, el: cardEl });
+
+    if (flippedCards.length === 2) {
+      lockBoard = true;
+      const [c1, c2] = flippedCards;
+      if (c1.emoji === c2.emoji) {
+        sound('good');
+        vib(12);
+        c1.el.classList.add('matched');
+        c2.el.classList.add('matched');
+        matchedPairs++;
+        flippedCards = [];
+        lockBoard = false;
+
+        const mEl = document.querySelector('#memMatched');
+        if (mEl) mEl.textContent = matchedPairs;
+        if (matchedPairs === pairCount) success();
+      } else {
+        wrong(c2.el);
+        setTimeout(() => {
+          if (c1 && c1.el) {
+            c1.el.classList.remove('flipped');
+            c1.el.textContent = '?';
+          }
+          if (c2 && c2.el) {
+            c2.el.classList.remove('flipped');
+            c2.el.textContent = '?';
+          }
+          flippedCards = [];
+          lockBoard = false;
+        }, 550);
+      }
+    }
+  };
+}
+
+/* =========================================================
+   REWARD GENERATION & SAFE FALLBACK SYSTEM
+   ========================================================= */
+
+function rollRarity() {
+  let cWeight = 60, rWeight = 25, eWeight = 12;
+  if (state.pity >= 20) {
+    cWeight = 54; rWeight = 25; eWeight = 16;
+  } else if (state.pity >= 10) {
+    cWeight = 57; rWeight = 25; eWeight = 14;
+  }
+
+  const roll = Math.random() * 100;
+  if (roll < cWeight) return 'Common';
+  if (roll < cWeight + rWeight) return 'Rare';
+  if (roll < cWeight + rWeight + eWeight) return 'Epic';
+  return 'Legendary';
+}
+
+function chooseReward(boxIndex) {
+  const rar = rollRarity();
+
+  const isMysteryRoll = (boxIndex === 4) ? (Math.random() < 0.65) : (Math.random() < 0.2);
+  let pool;
+
+  if (isMysteryRoll) {
+    const extraGroups = (boxIndex === 4) ? [4, 5, 6, 7, 8, 9] : [5, 6, 7, 8, 9];
+    pool = ITEMS.filter(x => extraGroups.includes(x[3]) && x[2] === rar);
+  } else {
+    pool = ITEMS.filter(x => x[3] === boxIndex && x[2] === rar);
+  }
+
+  if (!pool || !pool.length) {
+    pool = ITEMS.filter(x => x[3] === boxIndex && x[2] === rar);
+  }
+  if (!pool || !pool.length) {
+    pool = ITEMS.filter(x => x[3] === boxIndex);
+  }
+  if (!pool || !pool.length) {
+    pool = ITEMS.filter(x => x[2] === rar);
+  }
+  if (!pool || !pool.length) {
+    pool = ITEMS;
+  }
+
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+/* =========================================================
+   REVEAL SCREEN & PROGRESSION
+   ========================================================= */
+
+function reveal(wasPerfect = false, forcedItem = null) {
+  const it = forcedItem || (window.chooseReward ? window.chooseReward(currentBox) : chooseReward(currentBox));
+  const isFresh = !state.collection[it[0]];
+  const baseReward = isFresh ? REWARDS[it[2]] : D[it[2]];
+  const xpGained = X[it[2]];
+
+  state.collection[it[0]] = state.collection[it[0]] || { count: 0 };
+  state.collection[it[0]].count++;
+
+  const masteryResults = processItemMastery(it[0]);
+  updateQuestProgress('item_revealed', { box:currentBox, rarity:it[2] });
+  if (isFresh) {
+    updateQuestProgress('new_item');
+    syncThemeQuestProgress(grp(it));
+  } else {
+    updateQuestProgress('duplicate_item');
+  }
+  if (masteryResults.silverAwarded) updateQuestProgress('item_mastery', { stars:2, item:it[0] });
+  if (masteryResults.goldAwarded) updateQuestProgress('item_mastery', { stars:3, item:it[0] });
+
+  state.opens++;
+  state.streak++;
+
+  if (it[2] === 'Epic' || it[2] === 'Legendary') {
+    state.pity = 0;
+  } else {
+    state.pity++;
+  }
+
+  let comboCoins = 0;
+  if (wasPerfect) {
+    state.combo++;
+    state.bestCombo = Math.max(state.bestCombo, state.combo);
+    if (state.combo === 3) comboCoins = 10;
+    else if (state.combo === 5) comboCoins = 20;
+    else if (state.combo === 10) comboCoins = 50;
+    if (state.combo >= 3) sound('combo');
+  }
+
+  const perfectBonus = wasPerfect ? 25 : 0;
+
+  const notes = [];
+  if (masteryResults.messages.length) {
+    notes.push(...masteryResults.messages);
+    if (masteryResults.goldAwarded) {
+      sound('legendary');
+      vib([60, 30, 80]);
+      say('👑 GOLD FOIL MASTERY! +250 🪙 +1 FREE BOX!');
+    } else if (masteryResults.silverAwarded) {
+      sound('milestone');
+      vib([40, 20, 50]);
+      say('✨ SILVER MASTERY! +100 🪙');
+    }
+  }
+  const xpResult = addXp(xpGained);
+  for (let l = 0; l < xpResult.levelsGained; l++) {
+    notes.push('🎉 LEVEL UP! +100 🪙');
+  }
+
+  let milestoneBonus = 0;
+  if (MILE[state.opens] && !state.milestones[state.opens]) {
+    state.milestones[state.opens] = 1;
+    milestoneBonus = MILE[state.opens];
+    notes.push(`🏆 ${state.opens} OPENS MILESTONE! +${milestoneBonus} 🪙`);
+  }
+
+  let streakBonus = 0;
+  const streakRewardsMap = { 3: 50, 5: 100, 10: 250 };
+  if (streakRewardsMap[state.streak] && !state.streakRewards[state.streak]) {
+    streakBonus = streakRewardsMap[state.streak];
+    state.streakRewards[state.streak] = 1;
+    notes.push(`🔥 ${state.streak} STREAK BONUS! +${streakBonus} 🪙`);
+  }
+
+  const groupName = grp(it);
+  const allGroupItems = ITEMS.filter(x => grp(x) === groupName);
+  const isSetComplete = allGroupItems.every(x => state.collection[x[0]]) && !state.sets[groupName];
+  let setBonus = 0;
+  if (ncol() === 5) {
+    notes.push('🔓 ANIMAL BOX UNLOCKED!');
+  }
+  if (state.opens === 8) {
+    notes.push('🔓 SNEAKER BOX UNLOCKED!');
+  }
+  if (isSetComplete) {
+    state.sets[groupName] = 1;
+    state.setRewardsClaimed[groupName] = true;
+    setBonus = 500;
+    state.freeBox++;
+    notes.push(`🎉 ${groupName.toUpperCase()} SET MASTERED! +500 🪙 +1 FREE BOX!`);
+    const totalMastered = G.filter(g => (state.setRewardsClaimed && state.setRewardsClaimed[g]) || (state.sets && state.sets[g] === 1)).length;
+    if (totalMastered === 1 && state.level < 5) {
+      notes.push('🔓 TREASURE BOX UNLOCKED!');
+    }
+  }
+
+  updateMissionProgress('m1', 1);
+  if (it[2] === 'Rare' || it[2] === 'Epic' || it[2] === 'Legendary') {
+    updateMissionProgress('m3', 1);
+  }
+
+  const totalCoinsEarned = baseReward + perfectBonus + comboCoins + milestoneBonus + streakBonus + setBonus;
+  state.coins += totalCoinsEarned;
+
+  checkAchievements(it);
+
+  save();
+  setBack(false);
+
+  screen.innerHTML = `
+    <div class="reveal">
+      <p class="sub">WHAT'S INSIDE?</p>
+      <div class="anticipate">
+        <div id="rbox" class="revealbox">📦</div>
+      </div>
+      <div id="out"></div>
+    </div>
+  `;
+
+  sound('open');
+  vib(40);
+
+  setTimeout(() => {
+    const rbox = document.querySelector('#rbox');
+    const out = document.querySelector('#out');
+    if (rbox) rbox.classList.add('open');
+
+    setTimeout(() => {
+      if (!out) return;
+      const isLeg = it[2] === 'Legendary';
+      const isEpic = it[2] === 'Epic';
+
+      out.innerHTML = `
+        ${isLeg ? '<div class="legend" id="legend"></div><h2 class="legend-celebration">✨ LEGENDARY FIND! ✨</h2>' : ''}
+        <div class="item" style="${isLeg ? 'font-size:148px;' : ''}">${it[1]}</div>
+        <div>
+          <span class="rarity" style="background:${COLORS[it[2]]};box-shadow:0 0 ${isEpic || isLeg ? '24px' : '8px'} ${COLORS[it[2]]}">
+            ${it[2]} · ${grp(it)}
+          </span>
+        </div>
+        <h2 style="margin:10px 0 4px">${it[0]}</h2>
+        <p style="font-size:13px;color:#77738b;margin:0 0 8px">
+          ${isFresh ? '🎉 NEW ITEM! Added to collection.' : `DUPLICATE! (+${baseReward} Coins)`}
+        </p>
+        <div class="reward">
+          🪙 +${totalCoinsEarned} Coins · +${xpGained} XP
+        </div>
+        ${wasPerfect ? '<div style="font-size:12px;font-weight:bold;color:#48bb78;margin:2px 0">✨ Perfect Puzzle: +25 🪙</div>' : ''}
+        ${comboCoins > 0 ? `<div style="font-size:12px;font-weight:bold;color:#fc6094;margin:2px 0">⚡ ${state.combo} Combo: +${comboCoins} 🪙</div>` : ''}
+        ${notes.length ? `<p style="font-size:12px;font-weight:bold;color:#583ecc;margin:6px 0">${notes.join('<br>')}</p>` : ''}
+        <div style="margin-top:16px;display:flex;gap:10px">
+          <button class="primary" style="flex:1" onclick="boxes()">OPEN ANOTHER BOX</button>
+          <button class="primary secondary-color" style="flex:1" onclick="collection()">COLLECTION</button>
+        </div>
+      `;
+
+      if (isLeg) {
+        sound('legendary');
+        vib([70, 35, 90, 35, 130]);
+        const legWrap = document.querySelector('#legend');
+        if (legWrap) {
+          for (let i = 0; i < 22; i++) {
+            const z = document.createElement('i');
+            z.textContent = '✦';
+            z.style.left = '50%';
+            z.style.top = '48%';
+            z.style.setProperty('--x', (Math.random() * 320 - 160) + 'px');
+            z.style.setProperty('--y', (Math.random() * -240 - 20) + 'px');
+            legWrap.append(z);
+          }
+        }
+      } else if (isEpic) {
+        sound('epic');
+        vib([40, 30, 70]);
+      } else {
+        sound('reveal');
+        vib(30);
+      }
+    }, 280);
+  }, 680);
+}
+
+/* =========================================================
+   COLLECTION SCREEN & ITEM DETAIL MODAL
+   ========================================================= */
+
+let collectionView = 'grid';
+
+function setCollectionView(view) {
+  tap();
+  collectionView = view;
+  collection();
+}
+
+function getThemeSetProgress(groupName) {
+  const themeItems = ITEMS.filter(x => grp(x) === groupName);
+  const collectedItems = themeItems.filter(x => state.collection[x[0]]);
+  const collected = collectedItems.length;
+  const total = themeItems.length;
+  const isComplete = collected >= total;
+  const isClaimed = !!(state.setRewardsClaimed && state.setRewardsClaimed[groupName]) || !!(state.sets && state.sets[groupName] === 1);
+  return {
+    groupName,
+    themeItems,
+    collected,
+    total,
+    isComplete,
+    isClaimed
+  };
+}
+
+function claimSetMastery(groupName) {
+  tap();
+  const prog = getThemeSetProgress(groupName);
+  if (!prog.isComplete || prog.isClaimed) return;
+
+  state.setRewardsClaimed[groupName] = true;
+  state.sets[groupName] = 1;
+  state.coins += 500;
+  state.freeBox += 1;
+  save();
+  sound('milestone');
+  vib([50, 30, 80]);
+  const totalMastered = G.filter(g => (state.setRewardsClaimed && state.setRewardsClaimed[g]) || (state.sets && state.sets[g] === 1)).length;
+  if (totalMastered === 1 && state.level < 5) {
+    say(`🎉 ${groupName.toUpperCase()} MASTERED! 🔓 Treasure Box Unlocked!`);
+  } else {
+    say(`🎉 ${groupName.toUpperCase()} MASTERED! +500 🪙 & +1 Free Box!`);
+  }
+  checkAchievements();
+  collection();
+}
+
+function collection() {
+  busy = false;
+  tap();
+  setBack(false);
+  nav('collection');
+
+  const totalCollected = ncol();
+  const totalSetsMastered = G.filter(g => (state.setRewardsClaimed && state.setRewardsClaimed[g]) || (state.sets && state.sets[g] === 1)).length;
+  const totalStars = getTotalStars();
+
+  let viewContent = '';
+
+  if (collectionView === 'sets') {
+    viewContent = `
+      <div class="sets-list">
+        ${G.map((groupName, gIdx) => {
+          const prog = getThemeSetProgress(groupName);
+          const icon = THEME_ICONS[gIdx] || (BOXES[gIdx] ? BOXES[gIdx][1] : '✦');
+          const pct = Math.round((prog.collected / prog.total) * 100);
+
+          return `
+            <div class="theme-card ${prog.isClaimed ? 'mastered' : ''}">
+              <div class="theme-card-header">
+                <div>
+                  <b class="theme-title">${icon} ${groupName} Set</b>
+                  <small style="color:#77738b">${prog.collected} of ${prog.total} collected</small>
+                </div>
+                ${prog.isClaimed ? `
+                  <span class="badge gold">★ MASTERED</span>
+                ` : prog.isComplete ? `
+                  <button class="claim-mastery-btn" onclick="claimSetMastery('${groupName}')">CLAIM REWARD</button>
+                ` : `
+                  <span class="badge">${pct}%</span>
+                `}
+              </div>
+              <div class="theme-bar-wrap">
+                <div class="theme-bar ${prog.isComplete ? 'gold' : ''}" style="width:${pct}%"></div>
+              </div>
+              <div class="theme-slots">
+                ${prog.themeItems.map(item => {
+                  const owned = state.collection[item[0]];
+                  return `
+                    <button class="theme-slot ${owned ? 'owned' : 'locked'}" onclick="openItemModal('${item[0].replace(/'/g, "\\'")}')">
+                      <span>${owned ? item[1] : '🔒'}</span>
+                      <small>${owned ? item[0] : 'Locked'}</small>
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+              ${!prog.isClaimed && !prog.isComplete ? `
+                <div class="set-reward-hint">Reward on mastery: <b>+500 🪙 & 🎁 1 Free Box</b></div>
+              ` : ''}
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+  } else {
+    const filteredItems = ITEMS.filter(x => {
+      const catMatch = (cFilter === 'All' || grp(x) === cFilter);
+      const rarMatch = (rFilter === 'All' || x[2] === rFilter);
+      return catMatch && rarMatch;
+    });
+
+    viewContent = `
+      <div class="filter-scroll">
+        ${['All', ...G].map(g => `
+          <button class="filter-btn ${cFilter === g ? 'active' : ''}" onclick="cFilter='${g}';collection()">${g}</button>
+        `).join('')}
+      </div>
+
+      <div class="filter-scroll" style="margin-top:2px">
+        ${['All', 'Common', 'Rare', 'Epic', 'Legendary'].map(r => `
+          <button class="filter-btn ${rFilter === r ? 'active' : ''}" onclick="rFilter='${r}';collection()">${r}</button>
+        `).join('')}
+      </div>
+
+      <div class="collection">
+        ${filteredItems.map(item => {
+          const owned = state.collection[item[0]];
+          const count = owned ? owned.count : 0;
+          const starLevel = getItemStarLevel(item[0]);
+          const masteryClass = starLevel === 3 ? 'gold-mastery' : (starLevel === 2 ? 'silver-mastery' : '');
+          let starStr = '';
+          if (starLevel === 1) starStr = '★';
+          else if (starLevel === 2) starStr = '★★';
+          else if (starLevel === 3) starStr = '★★★ 👑';
+
+          return `
+            <div class="collect ${owned ? '' : 'lock'} ${masteryClass}" onclick="openItemModal('${item[0].replace(/'/g, "\\'")}')">
+              ${starStr ? `<span class="star-badge ${starLevel === 3 ? 'gold' : (starLevel === 2 ? 'silver' : '')}">${starStr}</span>` : ''}
+              <div class="ci">${owned ? item[1] : '?'}</div>
+              <b>${owned ? item[0] : 'Mystery Item'}</b>
+              <small>${owned ? `${item[2]} · x${count}` : 'Locked'}</small>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+  }
+
+  screen.innerHTML = `
+    <div class="title">
+      <h2>Collection</h2>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">
+        <span class="badge">${totalCollected} / ${ITEMS.length}</span>
+        <span class="badge" style="background:#f0ecfc;color:#583ecc;border:1px solid #d4c8fc">★ ${totalStars} / 150 Stars</span>
+        <span class="badge gold">🏆 ${totalSetsMastered} / ${G.length}</span>
+      </div>
+    </div>
+
+    <div class="view-toggle">
+      <button class="v-btn ${collectionView === 'grid' ? 'active' : ''}" onclick="setCollectionView('grid')">✦ Items Grid</button>
+      <button class="v-btn ${collectionView === 'sets' ? 'active' : ''}" onclick="setCollectionView('sets')">🏆 Theme Sets (${totalSetsMastered}/${G.length})</button>
+    </div>
+
+    ${viewContent}
+  `;
+}
+
+function openItemModal(itemName) {
+  tap();
+  const item = ITEMS.find(x => x[0] === itemName);
+  if (!item) return;
+
+  const groupName = grp(item);
+  const themeProg = getThemeSetProgress(groupName);
+  const owned = state.collection[item[0]];
+  const starLevel = getItemStarLevel(item[0]);
+  const masteryProg = getItemMasteryProgress(item[0]);
+  const progPct = masteryProg.maxed ? 100 : (masteryProg.stars === 2 ? Math.round(((masteryProg.count - 3) / 2) * 100) : masteryProg.stars === 1 ? Math.round(((masteryProg.count - 1) / 2) * 100) : 0);
+
+  const modalHTML = `
+    <div class="modal" id="itemModal" onclick="closeItemModal(event)">
+      <div>
+        <button class="modal-close" onclick="closeItemModal()">✕</button>
+        ${owned ? `
+          <div style="font-size:72px;margin:12px 0">${item[1]}</div>
+          <span class="rarity" style="background:${COLORS[item[2]]}">${item[2]}</span>
+          <h2 style="margin:10px 0 4px">${item[0]}</h2>
+          <p style="color:#77738b;font-size:12px;margin:0 0 8px">Theme: <b>${groupName}</b> · Owned: <b>${owned.count}x</b></p>
+          <div class="theme-progress-pill">
+            <span>${themeProg.isClaimed ? '★ Set Mastered' : `Set Progress: ${themeProg.collected}/${themeProg.total}`}</span>
+          </div>
+          <div class="mastery-box" style="background:#f4f1fe;border-radius:14px;padding:10px 12px;margin:10px 0;text-align:left">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+              <span style="font-size:12px;font-weight:bold;color:#292541">Star Mastery</span>
+              <span style="font-size:12px;font-weight:bold;color:${starLevel === 3 ? '#b78103' : starLevel === 2 ? '#546e7a' : '#7357f5'}">
+                ${starLevel === 3 ? '★★★ 👑 Gold Foil' : starLevel === 2 ? '★★ Silver' : '★ Discovered'}
+              </span>
+            </div>
+            <div style="height:8px;background:#e2dcfa;border-radius:6px;overflow:hidden;margin-bottom:6px">
+              <div style="height:100%;background:${starLevel === 3 ? 'linear-gradient(90deg,#ffd700,#ffa000)' : starLevel === 2 ? 'linear-gradient(90deg,#b0bec5,#78909c)' : 'var(--purple)'};width:${progPct}%;border-radius:6px;transition:width .3s"></div>
+            </div>
+            <small style="font-size:11px;color:#77738b;display:block">
+              ${masteryProg.maxed ? '✨ Fully mastered! Max prestige achieved.' : masteryProg.stars === 2 ? `Next: ★★★ 👑 (+250 🪙, +1 🎁) at 5 copies (${masteryProg.remaining} needed)` : `Next: ★★ Silver Mastery (+100 🪙) at 3 copies (${masteryProg.remaining} needed)`}
+            </small>
+          </div>
+          <div style="background:#f8f7ff;border-radius:14px;padding:12px;font-size:13px;color:#555;margin-top:8px">
+            ${getItemDescription(item)}
+          </div>
+        ` : `
+          <div style="font-size:72px;margin:12px 0">🔒</div>
+          <span class="badge">Locked</span>
+          <h2 style="margin:10px 0 4px">???</h2>
+          <p style="color:#77738b;font-size:13px;margin:8px 0"><b>Mystery Item</b></p>
+          <div class="theme-progress-pill">
+            <span>Theme: ${groupName} (${themeProg.collected}/${themeProg.total} collected)</span>
+          </div>
+          <div style="background:#f8f7ff;border-radius:14px;padding:12px;font-size:13px;color:#777;margin-top:8px">
+            Open mystery boxes or claim daily rewards to discover this item!
+          </div>
+        `}
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+function getItemDescription(item) {
+  const DESCS = {
+    'Teddy Bear': 'A super soft plush friend that brings comforting bedtime hugs.',
+    'Toy Robot': 'Beep boop! This wind-up bot walks with clicking gears.',
+    'Bouncy Ball': 'An ultra-high bouncing ball with sparkling swirls inside.',
+    'Mini Car': 'A rare diecast speedster built for high-octane miniature races.',
+    'Toy Train': 'Classic wooden locomotive chugging with warm nostalgic charm.',
+    'Donut': 'Glazed with strawberry frosting and rainbow sprinkles on top.',
+    'Cupcake': 'Fluffy vanilla sponge topped with pastel buttercream swirls.',
+    'Pizza Slice': 'Freshly baked and loaded with melty cheese and spicy pepperoni.',
+    'Candy': 'An exquisite sweet wrapped in shiny iridescent foil.',
+    'Cookie': 'A warm chocolate chip cookie that smells fresh out of the oven.',
+    'Panda': 'A lazy little panda munching happily on bamboo shoots.',
+    'Kitten': 'A curious fluffy kitten that purrs when you tap it.',
+    'Fox': 'A clever red fox with a bushy tail and curious eyes.',
+    'Bunny': 'An adorable bouncy rabbit with twitching ears.',
+    'Otter': 'A playful river otter holding its favorite shiny stone.',
+    'Star Sneaker': 'Retro kicks with glowing star patches on the sides.',
+    'Rainbow Sneaker': 'Vibrant high-tops colored like an upbeat rainbow.',
+    'Lightning Sneaker': 'Aerodynamic runners with electric yellow lightning bolts.',
+    'Golden Sneaker': 'Legendary gilded footwear crafted for royalty.',
+    'Moon Sneaker': 'Midnight sneakers featuring luminescent crescent details.',
+    'Treasure Coin': 'An ancient gold dubloon pulled from sunken ocean galleons.',
+    'Pirate Map': 'Weathered parchment pointing toward hidden islands and X marks.',
+    'Magic Gem': 'A pulsating amethyst radiating subtle mystical energy.',
+    'Crystal Crown': 'Jeweled royal headpiece glittering with ethereal light.',
+    'Golden Key': 'The master key rumored to open any cosmic secret.',
+    'Watch': 'A sleek smart timepiece that tracks seconds with precision.',
+    'Headphones': 'Noise-cancelling wireless headphones with deep bass vibes.',
+    'Game Pad': 'Ergonomic controller ready for endless gaming sessions.',
+    'Drone': 'High-speed quadcopter with stabilization gyros.',
+    'Robot Lamp': 'An adorable desk companion glowing with warm ambient LEDs.',
+    'Dragon Egg': 'A warm textured egg waiting to hatch an ember-breathing hatchling.',
+    'Fairy Wand': 'Twinkling wand capable of turning bad luck into starlight.',
+    'Phoenix': 'A radiant flame feather radiating timeless warmth.',
+    'Unicorn': 'Majestic horned creature of enchanted starlit glades.',
+    'Moon Crystal': 'Pure condensed moonlight glowing with tranquil serenity.',
+    'Happy Cloud': 'A sweet fluffy cloud showering gentle candy rain.',
+    'Smile Star': 'A cheerful stellar buddy shining bright in the night sky.',
+    'Tiny Cake': 'Miniature confection with strawberry cream layers.',
+    'Love Letter': 'A heartfelt handwritten note sealed with wax and care.',
+    'Rainbow Cat': 'A mythical rainbow feline leaving sparkling trails.',
+    'Scooter': 'Zippy two-wheeled ride perfect for neighborhood sidewalks.',
+    'Fire Truck': 'Brave red rescue engine with working miniature ladder.',
+    'Rocket Car': 'Turbine-powered dragster built for supersonic speed.',
+    'Sailing Boat': 'Graceful timber sailboat gliding across tranquil waters.',
+    'Gold Bus': 'Legendary luxury coach polished to mirror-bright perfection.',
+    'Secret Eye': 'A protective talisman reflecting curious mysteries.',
+    'Lucky Dice': 'Six-sided fortune rollers tuned for lucky jackpots.',
+    'Mystery Orb': 'Enigmatic sphere revealing hints of the multiverse.',
+    'Puzzle Cube': 'Challenging geometric brainteaser with colorful faces.',
+    'Cosmic Door': 'A gateway leading to uncharted dimensions of wonder.'
+  };
+  return DESCS[item[0]] || 'A delightful mystery collectible waiting in your showcase.';
+}
+
+function closeItemModal(e) {
+  if (e && e.target !== e.currentTarget && !e.target.classList.contains('modal-close')) return;
+  const m = document.querySelector('#itemModal');
+  if (m) m.remove();
+}
+
+window.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    const m = document.querySelector('.modal');
+    if (m) m.remove();
+  }
+});
+
+/* =========================================================
+   DAILY REWARDS & MISSIONS SCREEN
+   ========================================================= */
+
+function grantRarity(r) {
+  const pool = ITEMS.filter(x => x[2] === r);
+  const item = pool[Math.floor(Math.random() * pool.length)];
+  const isFresh = !state.collection[item[0]];
+  state.collection[item[0]] = state.collection[item[0]] || { count: 0 };
+  state.collection[item[0]].count++;
+  state.coins += isFresh ? REWARDS[r] : D[r];
+  processItemMastery(item[0]);
+  return item;
+}
+
+function daily() {
+  busy = false;
+  tap();
+  setBack(false);
+  nav('daily');
+  checkDailyReset();
+
+  const claimedToday = state.lastClaim === today();
+  const d = state.dailyDay || 0;
+  const rewardsList = ['75 Coins', '1 Free Box', '150 Coins', 'Rare Item', '250 Coins', 'Epic Item', 'Legendary Item'];
+  const dayIcons = ['🪙', '📦', '🪙', '💎', '🪙', '✨', '👑'];
+
+  const m1 = state.missions.m1 || { progress: 0, target: 3, reward: 50, claimed: false };
+  const m2 = state.missions.m2 || { progress: 0, target: 2, reward: 75, claimed: false };
+  const m3 = state.missions.m3 || { progress: 0, target: 1, reward: 100, claimed: false };
+
+  screen.innerHTML = `
+    <div class="title">
+      <h2>Daily Hub</h2>
+      <span class="badge">Day ${d + 1}</span>
+    </div>
+
+    <!-- 7-Day Login Streak -->
+    <div style="background:#fff;border-radius:22px;padding:16px;box-shadow:0 4px 14px var(--shadow);margin-bottom:14px;text-align:center">
+      <h3 style="margin:0 0 4px;font-size:18px">7-Day Login Gift</h3>
+      <p class="sub" style="margin:0 0 10px">Today: <b>${rewardsList[d]}</b></p>
+      <div class="days">
+        ${dayIcons.map((x, i) => `
+          <div class="day ${i === d ? 'active' : ''} ${i < d ? 'claimed' : ''}">
+            Day ${i + 1}
+            <span>${x}</span>
+          </div>
+        `).join('')}
+      </div>
+      <button class="primary" onclick="claimDailyReward()" ${claimedToday ? 'disabled style="background:#ddd8eb;box-shadow:none;cursor:not-allowed"' : ''}>
+        ${claimedToday ? 'COME BACK TOMORROW' : 'CLAIM TODAY’S REWARD'}
+      </button>
+    </div>
+
+    <!-- Daily Missions -->
+    <div class="title">
+      <h2>Daily Missions</h2>
+      <span class="badge gold">Resets Daily</span>
+    </div>
+
+    <div class="mission-card">
+      <div class="mission-info">
+        <b>Open 3 Boxes</b>
+        <small>${Math.min(3, m1.progress)} / 3 completed</small>
+        <div class="mission-progress">
+          <div class="mission-bar" style="width:${Math.min(100, (m1.progress / 3) * 100)}%"></div>
+        </div>
+      </div>
+      <button class="claim-btn" onclick="claimMission('m1')" ${m1.claimed || m1.progress < 3 ? 'disabled' : ''}>
+        ${m1.claimed ? 'Claimed' : '+50 🪙'}
+      </button>
+    </div>
+
+    <div class="mission-card">
+      <div class="mission-info">
+        <b>Solve 2 Puzzles</b>
+        <small>${Math.min(2, m2.progress)} / 2 completed</small>
+        <div class="mission-progress">
+          <div class="mission-bar" style="width:${Math.min(100, (m2.progress / 2) * 100)}%"></div>
+        </div>
+      </div>
+      <button class="claim-btn" onclick="claimMission('m2')" ${m2.claimed || m2.progress < 2 ? 'disabled' : ''}>
+        ${m2.claimed ? 'Claimed' : '+75 🪙'}
+      </button>
+    </div>
+
+    <div class="mission-card">
+      <div class="mission-info">
+        <b>Find 1 Rare or Better Item</b>
+        <small>${Math.min(1, m3.progress)} / 1 completed</small>
+        <div class="mission-progress">
+          <div class="mission-bar" style="width:${Math.min(100, (m3.progress / 1) * 100)}%"></div>
+        </div>
+      </div>
+      <button class="claim-btn" onclick="claimMission('m3')" ${m3.claimed || m3.progress < 1 ? 'disabled' : ''}>
+        ${m3.claimed ? 'Claimed' : '+100 🪙'}
+      </button>
+    </div>
+    ${renderQuestBoard()}
+  `;
+}
+
+function claimDailyReward() {
+  if (state.lastClaim === today()) return say('Already claimed! Come back tomorrow!');
+  const d = state.dailyDay || 0;
+  let msg = '';
+  let awardedItem = null;
+
+  if (d === 0) {
+    state.coins += 75;
+    msg = '+75 Coins!';
+  } else if (d === 1) {
+    state.freeBox++;
+    msg = '+1 Free Box!';
+  } else if (d === 2) {
+    state.coins += 150;
+    msg = '+150 Coins!';
+  } else if (d === 3) {
+    awardedItem = grantRarity('Rare');
+    msg = `Rare Item: ${awardedItem[0]}!`;
+  } else if (d === 4) {
+    state.coins += 250;
+    msg = '+250 Coins!';
+  } else if (d === 5) {
+    awardedItem = grantRarity('Epic');
+    msg = `Epic Item: ${awardedItem[0]}!`;
+  } else if (d === 6) {
+    awardedItem = grantRarity('Legendary');
+    msg = `Legendary Item: ${awardedItem[0]}!`;
+  }
+
+  state.lastClaim = today();
+  state.dailyDay = (d + 1) % 7;
+  checkAchievements(awardedItem);
+  save();
+  sound('coin');
+  vib(35);
+  say(msg);
+  daily();
+}
+
+/* =========================================================
+   ACHIEVEMENTS MODAL
+   ========================================================= */
+
+function showAchievementsModal() {
+  tap();
+  const modalHTML = `
+    <div class="modal" id="achModal" onclick="closeAchModal(event)">
+      <div>
+        <button class="modal-close" onclick="closeAchModal()">✕</button>
+        <h2 style="margin:4px 0 12px">Achievements</h2>
+        <div style="text-align:left;display:flex;flex-direction:column;gap:8px">
+          ${ACHIEVEMENT_DEFS.map(ach => {
+            const unlocked = !!state.achievements[ach.id];
+            return `
+              <div style="background:${unlocked ? '#f3fbf6' : '#f8f7ff'};border-radius:14px;padding:10px 12px;border:1px solid ${unlocked ? '#48bb7855' : '#eee'};display:flex;align-items:center;justify-content:space-between">
+                <div>
+                  <b style="font-size:13px;color:${unlocked ? '#22543d' : '#292541'}">${unlocked ? '🏆' : '🔒'} ${ach.name}</b>
+                  <small style="display:block;color:#77738b;font-size:11px">${ach.desc}</small>
+                </div>
+                <span class="badge ${unlocked ? 'gold' : ''}" style="font-size:10px">${unlocked ? 'CLAIMED' : '+' + ach.reward + ' 🪙'}</span>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+function closeAchModal(e) {
+  if (e && e.target !== e.currentTarget && !e.target.classList.contains('modal-close')) return;
+  const m = document.querySelector('#achModal');
+  if (m) m.remove();
+}
+
+/* =========================================================
+   SETTINGS & RESET
+   ========================================================= */
+
+function settings() {
+  busy = false;
+  tap();
+  screen.innerHTML = `
+    <div class="modal" id="settingsModal">
+      <div>
+        <h2 style="margin:0 0 14px">Settings</h2>
+        <div style="text-align:left;margin-bottom:20px;font-size:14px">
+          <p style="display:flex;align-items:center;justify-content:space-between;margin:12px 0">
+            <span>🔊 Sound Effects</span>
+            <button style="color:var(--purple);font-weight:bold;padding:4px 10px" onclick="toggleSetting('sound')">
+              ${state.sound ? 'ON' : 'OFF'}
+            </button>
+          </p>
+          <p style="display:flex;align-items:center;justify-content:space-between;margin:12px 0">
+            <span>📳 Haptics</span>
+            <button style="color:var(--purple);font-weight:bold;padding:4px 10px" onclick="toggleSetting('haptics')">
+              ${state.haptics ? 'ON' : 'OFF'}
+            </button>
+          </p>
+          <hr style="border:0;border-top:1px solid #eee;margin:16px 0">
+          <p style="text-align:center;color:#77738b;font-size:12px;margin:0 0 14px">
+            Mystery ASMR: Unbox & Solve<br><b>Version 0.9</b>
+          </p>
+          <button class="primary" style="background:#f56565;box-shadow:0 5px #c53030" onclick="confirmReset()">
+            RESET PROGRESS
+          </button>
+        </div>
+        <button class="primary" onclick="home()">DONE</button>
+      </div>
+    </div>
+  `;
+}
+
+function toggleSetting(k) {
+  state[k] = !state[k];
+  save();
+  if (k === 'sound' && state.sound) sound('tap');
+  if (k === 'haptics' && state.haptics) vib(20);
+  settings();
+}
+
+function confirmReset() {
+  screen.insertAdjacentHTML('beforeend', `
+    <div class="modal" id="confirmModal">
+      <div>
+        <h2>Are you sure?</h2>
+        <p style="color:#77738b;font-size:13px">All coins, items, missions and level progress will be deleted.</p>
+        <button class="primary" style="background:#f56565;box-shadow:0 5px #c53030" onclick="resetSave()">RESET ALL DATA</button>
+        <button onclick="document.querySelector('#confirmModal')?.remove()" style="margin-top:12px;background:none;font-weight:bold">CANCEL</button>
+      </div>
+    </div>
+  `);
+}
+
+function resetSave() {
+  localStorage.removeItem('mysteryAsmrV2');
+  state = createDefaultState();
+  state = normalizeState(state);
+  window.state = state;
+  save();
+  say('Progress reset successfully!');
+  home();
+}
+
+/* =========================================================
+   TUTORIAL & WELCOME BONUS
+   ========================================================= */
+
+function tutorial() {
+  screen.insertAdjacentHTML('beforeend', `
+    <div class="modal" id="tutorialModal">
+      <div>
+        <h2>How To Play</h2>
+        <div style="text-align:center;font-size:14px;color:#555;line-height:1.7;margin:12px 0">
+          <b>1. Pick a Mystery Box</b><br>
+          ↓<br>
+          <b>2. Satisfying ASMR Interaction</b><br>
+          (Peel, cut, pop, zip, or scratch)<br>
+          ↓<br>
+          <b>3. Solve The Mini-Puzzle</b><br>
+          ↓<br>
+          <b>4. Collect Cute Mystery Rewards!</b>
+        </div>
+        <button class="primary" onclick="closeTutorial()">LET'S GO!</button>
+      </div>
+    </div>
+  `);
+}
+
+function closeTutorial() {
+  state.tutorial = true;
+  if (!state.welcome) {
+    state.welcome = true;
+    state.coins += 100;
+    say('🎁 WELCOME BONUS +100 COINS');
+  }
+  save();
+  tap();
+  const m = document.querySelector('#tutorialModal');
+  if (m) m.remove();
+  home();
+}
+
+/* =========================================================
+   REWARDED ADS (PLACEHOLDER COOLDOWN)
+   ========================================================= */
+
+function rewardedAd(type) {
+  const now = Date.now();
+  if (now < adCooldown) {
+    return say('Next ad reward ready soon!');
+  }
+  adCooldown = now + 12000;
+  if (type === 'coins') {
+    state.coins += 50;
+    say('🎬 Ad reward: +50 Coins!');
+  } else {
+    state.freeBox++;
+    say('🎬 Ad reward: +1 Free Box!');
+  }
+  save();
+  sound('coin');
+  vib(25);
+  setTimeout(home, 600);
+}
+
+function rewardedAdForCoins() { rewardedAd('coins'); }
+function rewardedAdForFreeBox() { rewardedAd('box'); }
+
+/* =========================================================
+   INITIALIZATION
+   ========================================================= */
+
+back.onclick = boxes;
+document.querySelectorAll('nav button').forEach(b => {
+  b.onclick = () => go(b.dataset.go);
+});
+
+function init() {
+  state = load();
+  state = normalizeState(state);
+  window.state = state;
+  window.addXp = addXp;
+  window.getDifficulty = getDifficulty;
+  window.startBox = startBox;
+  window.asmr = asmr;
+  window.puzzle = puzzle;
+  window.keyPuzzle = keyPuzzle;
+  window.matchPuzzle = matchPuzzle;
+  window.orderPuzzle = orderPuzzle;
+  window.sortPuzzle = sortPuzzle;
+  window.hiddenPuzzle = hiddenPuzzle;
+  window.tapDifferentPuzzle = tapDifferentPuzzle;
+  window.memoryMatchPuzzle = memoryMatchPuzzle;
+  window.success = success;
+  window.wrong = wrong;
+  window.reveal = reveal;
+  window.rollRarity = rollRarity;
+  window.chooseReward = chooseReward;
+  window.save = save;
+  window.resetSave = resetSave;
+  window.load = load;
+  window.createDefaultState = createDefaultState;
+  window.normalizeState = normalizeState;
+  window.claimDailyReward = claimDailyReward;
+  window.claimMission = claimMission;
+  window.checkAchievements = checkAchievements;
+  window.boxes = boxes;
+  window.home = home;
+  window.daily = daily;
+  window.collection = collection;
+  window.settings = settings;
+  window.sound = sound;
+  window.BOXES = BOXES;
+  window.ITEMS = ITEMS;
+  window.REWARDS = REWARDS;
+  window.D = D;
+  window.X = X;
+  window.G = G;
+  window.THEME_ICONS = THEME_ICONS;
+  window.ASMR_ACTIONS = ASMR_ACTIONS;
+  window.claimSetMastery = claimSetMastery;
+  window.getThemeSetProgress = getThemeSetProgress;
+  window.setCollectionView = setCollectionView;
+  window.openItemModal = openItemModal;
+  window.closeItemModal = closeItemModal;
+  window.getBoxUnlockInfo = getBoxUnlockInfo;
+  window.isBoxUnlocked = isBoxUnlocked;
+  window.getItemStarLevel = getItemStarLevel;
+  window.getItemMasteryProgress = getItemMasteryProgress;
+  window.processItemMastery = processItemMastery;
+  window.getTotalStars = getTotalStars;
+  window.claimQuest = claimQuest;
+  window.initializeQuests = initializeQuests;
+  window.updateQuestProgress = updateQuestProgress;
+  checkDailyReset();
+  initializeQuests();
+  save();
+  home();
+}
+
+init();
+
+/* PWA Service Worker Registration */
+if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js').catch(err => {
+      console.warn('[PWA SW] Registration notice:', err);
+    });
+  });
+}
+</script>
+</body>
+</html>
